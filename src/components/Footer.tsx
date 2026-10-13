@@ -104,7 +104,7 @@ export default function Footer() {
               <span>© 2026 Learn with Ankit. All rights reserved.</span>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
-              <Link href="#" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
+              <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-amber-400 transition-colors">Terms & Conditions</Link>
               <Link href="#" className="hover:text-amber-400 transition-colors">Contact</Link>
             </div>
