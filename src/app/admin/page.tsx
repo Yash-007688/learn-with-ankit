@@ -62,12 +62,16 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username.trim() === "admin" && password === "admin") {
+    const cleanUsername = username.trim().toLowerCase();
+    const validEmails = ["yashrajmmolchandani@gmail.com", "admin"];
+    
+    if (validEmails.includes(cleanUsername) && password === "admin") {
       setIsAuthenticated(true);
       sessionStorage.setItem("admin_auth", "true");
+      sessionStorage.setItem("admin_email", cleanUsername);
       setLoginError("");
     } else {
-      setLoginError("Invalid credentials! Username & password must be 'admin'.");
+      setLoginError("Invalid credentials! Enter valid admin email and password.");
     }
   };
 
@@ -136,7 +140,7 @@ export default function AdminPage() {
           {/* Hint badge */}
           <div className="mb-6 p-3 rounded-xl bg-amber-950/40 border border-amber-800/40 text-xs text-amber-300/90 text-center flex items-center justify-center gap-2">
             <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Use Username: <strong className="text-white">admin</strong> & Password: <strong className="text-white">admin</strong></span>
+            <span>Email: <strong className="text-white">yashrajmmolchandani@gmail.com</strong> | Password: <strong className="text-white">admin</strong></span>
           </div>
 
           {loginError && (
@@ -148,14 +152,14 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-2">
-                Username
+                Admin Email / Username
               </label>
               <input
                 type="text"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter admin username"
+                placeholder="yashrajmmolchandani@gmail.com"
                 className="w-full px-4 py-3.5 rounded-xl bg-stone-900/80 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm transition-colors"
               />
             </div>
@@ -223,7 +227,12 @@ export default function AdminPage() {
             </div>
             <div>
               <span className="font-bold text-lg text-white block leading-tight">Learn with Ankit</span>
-              <span className="text-xs font-semibold text-amber-400 uppercase tracking-widest">Admin Control Panel</span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
+                  ROLE: ADMIN
+                </span>
+                <span className="text-xs text-stone-400 hidden sm:inline">yashrajmmolchandani@gmail.com</span>
+              </div>
             </div>
           </div>
 
