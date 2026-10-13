@@ -1,15 +1,59 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight, Sparkles,
-  Users, Trophy, Star, BookOpen, Zap, CheckCircle2
+  Users, Trophy, Star, BookOpen, Zap, CheckCircle2,
+  ChevronDown, Mail, Phone, MessageSquare, Send, HelpCircle
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
 export default function Home() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "Course Inquiry",
+    message: "",
+  });
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactSubmitted(true);
+    setTimeout(() => {
+      setContactForm({ name: "", email: "", phone: "", subject: "Course Inquiry", message: "" });
+      setContactSubmitted(false);
+    }, 4000);
+  };
+
+  const faqs = [
+    {
+      q: "Which courses are suitable for JEE & NEET aspirants?",
+      a: "Our Classical Mechanics, Electromagnetism, Modern Physics, and Optics modules are curated strictly according to the latest JEE Advanced, JEE Main, and NEET patterns with numerical problem-solving sessions.",
+    },
+    {
+      q: "Are the lectures recorded or live?",
+      a: "You get access to HD recorded concept lectures anytime with weekly scheduled live doubt-clearing sessions and formula derivation masterclasses.",
+    },
+    {
+      q: "How can I ask doubts directly to Ankit Sir?",
+      a: "Enrolled students get access to our dedicated doubt portal and community group where doubts are answered within 24 hours.",
+    },
+    {
+      q: "Can I watch the videos on mobile and desktop?",
+      a: "Yes! Learn with Ankit is fully responsive and optimized to run seamlessly across all smartphones, tablets, and computers.",
+    },
+    {
+      q: "Is there any refund policy?",
+      a: "Yes, you can check our detailed Terms & Conditions and refund rules on the Terms page before making any purchase.",
+    },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center overflow-hidden w-full bg-[#0a0500] text-white">
 
@@ -291,7 +335,228 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 5: FOOTER */}
+      {/* SECTION 5: FAQS (FREQUENTLY ASKED QUESTIONS) */}
+      <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-800/40 bg-amber-950/40 text-amber-400 text-xs font-semibold mb-4">
+            <HelpCircle className="w-4 h-4" />
+            Got Questions?
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-stone-400 max-w-xl mx-auto text-base">
+            Everything you need to know about our courses, lectures, doubt resolution, and batch timings.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {faqs.map((faq, index) => {
+            const isOpen = openFaq === index;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="rounded-2xl border border-amber-900/30 bg-amber-950/20 backdrop-blur-sm overflow-hidden"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(isOpen ? null : index)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left font-semibold text-base sm:text-lg text-white hover:text-amber-400 transition-colors cursor-pointer"
+                >
+                  <span className="pr-4">{faq.q}</span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-amber-400 shrink-0 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 pt-1 text-stone-300 text-sm sm:text-base leading-relaxed border-t border-amber-900/20">
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* SECTION 6: CONTACT US */}
+      <section id="contact" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10 border-t border-amber-900/20">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left Column: Contact Info */}
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-800/40 bg-amber-950/40 text-amber-400 text-xs font-semibold mb-4">
+              <MessageSquare className="w-4 h-4" />
+              Get In Touch
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-6">
+              Have doubts or need counseling? <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400">
+                Talk to us directly.
+              </span>
+            </h2>
+            <p className="text-stone-400 leading-relaxed mb-8 text-base">
+              Whether you want guidance on selecting the right physics module for JEE/NEET or need help with course enrollment, Ankit Sir&apos;s academic team is here to assist you.
+            </p>
+
+            <div className="space-y-6">
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-950/20 border border-amber-900/30">
+                <div className="w-12 h-12 rounded-xl bg-amber-900/30 border border-amber-800/40 flex items-center justify-center text-amber-400">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs uppercase font-semibold text-stone-400">Direct Phone Support</h4>
+                  <p className="text-white font-bold">+91 99999 99999</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-950/20 border border-amber-900/30">
+                <div className="w-12 h-12 rounded-xl bg-amber-900/30 border border-amber-800/40 flex items-center justify-center text-amber-400">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs uppercase font-semibold text-stone-400">Official Email</h4>
+                  <p className="text-white font-bold">support@learnwithankit.com</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-950/20 border border-amber-900/30">
+                <div className="w-12 h-12 rounded-xl bg-amber-900/30 border border-amber-800/40 flex items-center justify-center text-amber-400">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs uppercase font-semibold text-stone-400">Response Speed</h4>
+                  <p className="text-white font-bold">Within 2 to 4 hours on working days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Form */}
+          <div className="p-8 sm:p-10 rounded-3xl bg-stone-950/80 border border-amber-900/40 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+            <h3 className="text-2xl font-bold text-white mb-2">Send a Message</h3>
+            <p className="text-xs text-stone-400 mb-6">Fill in the form below and we will get back to you shortly.</p>
+
+            {contactSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-8 rounded-2xl bg-amber-950/40 border border-amber-800/50 text-center"
+              >
+                <div className="w-14 h-14 rounded-full bg-green-500/20 border border-green-500/40 text-green-400 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle2 className="w-7 h-7" />
+                </div>
+                <h4 className="text-xl font-bold text-white mb-2">Message Sent Successfully!</h4>
+                <p className="text-sm text-stone-300">
+                  Thank you for reaching out. Ankit Sir&apos;s counseling team will contact you soon.
+                </p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-300 uppercase mb-2">
+                      Your Full Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                      placeholder="e.g. Aryan Sharma"
+                      className="w-full px-4 py-3.5 rounded-xl bg-stone-900/80 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-300 uppercase mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={contactForm.phone}
+                      onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
+                      placeholder="+91 98765 43210"
+                      className="w-full px-4 py-3.5 rounded-xl bg-stone-900/80 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 uppercase mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    placeholder="student@example.com"
+                    className="w-full px-4 py-3.5 rounded-xl bg-stone-900/80 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 uppercase mb-2">
+                    I am interested in
+                  </label>
+                  <select
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                    className="w-full px-4 py-3.5 rounded-xl bg-stone-900/80 border border-amber-900/40 text-white focus:outline-none focus:border-amber-500 text-sm transition-colors"
+                  >
+                    <option value="JEE Advanced & Mains">JEE Advanced & Mains Physics</option>
+                    <option value="NEET Preparation">NEET Physics Batch</option>
+                    <option value="Class 11 Foundation">Class 11 Foundation</option>
+                    <option value="Class 12 Boards">Class 12 Boards</option>
+                    <option value="Doubt Clearing Session">Direct Doubt Clearing</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 uppercase mb-2">
+                    Your Question / Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    required
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    placeholder="Tell us what you need help with..."
+                    className="w-full px-4 py-3.5 rounded-xl bg-stone-900/80 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm transition-colors resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full h-13 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 font-bold text-black flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_25px_rgba(245,158,11,0.3)] cursor-pointer"
+                >
+                  <Send className="w-4 h-4" />
+                  Submit Inquiry
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: FOOTER */}
       <Footer />
     </div>
   );
