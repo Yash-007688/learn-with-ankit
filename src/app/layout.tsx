@@ -6,8 +6,8 @@ import Navbar from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Physics with Ankit | Master the Universe",
-  description: "Learn physics with Ankit Yadav. Interactive, dynamic, and fun learning platform.",
+  title: "Learn with Ankit | Master Physics",
+  description: "Learn with Ankit Yadav. Interactive, dynamic, and intuitive physics learning platform.",
 };
 
 export default function RootLayout({

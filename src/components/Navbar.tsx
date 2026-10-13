@@ -26,7 +26,7 @@ export default function Navbar() {
               <Atom className="h-8 w-8 text-amber-500" />
             </motion.div>
             <span className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400 tracking-tight">
-              Ankit's Physics
+              Learn with Ankit
             </span>
           </Link>
 
