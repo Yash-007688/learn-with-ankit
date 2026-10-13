@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Atom } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -17,15 +18,24 @@ export default function Navbar() {
     <nav className="border-b border-amber-900/30 bg-[#0a0500]/80 backdrop-blur-xl sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          {/* Logo */}
+          {/* Logo with Ankit Sir's Photo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            >
-              <Atom className="h-8 w-8 text-amber-500" />
-            </motion.div>
-            <span className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400 tracking-tight">
+            <div className="relative">
+              <div className="w-11 h-11 rounded-full p-[2px] bg-gradient-to-tr from-amber-500 to-orange-500 group-hover:scale-105 transition-transform duration-300 shadow-[0_0_15px_rgba(245,158,11,0.4)]">
+                <div className="w-full h-full rounded-full overflow-hidden bg-black relative">
+                  <Image
+                    src="/ankit-sir.png"
+                    alt="Ankit Sir Logo"
+                    fill
+                    className="object-cover object-top"
+                    sizes="44px"
+                    priority
+                  />
+                </div>
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-[#0a0500] rounded-full" />
+            </div>
+            <span className="font-bold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400 tracking-tight group-hover:from-amber-300 group-hover:to-orange-300 transition-colors">
               Learn with Ankit
             </span>
           </Link>
