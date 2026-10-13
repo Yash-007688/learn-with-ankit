@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-slate-950 text-slate-50 min-h-screen flex flex-col selection:bg-blue-500/30`}>
+      <body className={`${inter.className} bg-[#0a0500] text-slate-50 min-h-screen flex flex-col selection:bg-amber-500/30`}>
         <Navbar />
         <main className="flex-1 relative">
           {/* Subtle starry background effect for the whole site */}
