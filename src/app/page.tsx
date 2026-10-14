@@ -7,7 +7,7 @@ import Image from "next/image";
 import {
   ArrowRight, Sparkles,
   Users, Trophy, Star, BookOpen, Zap, CheckCircle2,
-  ChevronDown, Mail, Phone, MessageSquare, Send, HelpCircle
+  ChevronDown, Mail, Phone, MessageSquare, Send, HelpCircle, X, ShieldCheck
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
@@ -335,7 +335,253 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 5: FAQS (FREQUENTLY ASKED QUESTIONS) */}
+      {/* SECTION 5: PRICING & PLAN DIFFERENTIATION */}
+      <section id="pricing" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10 border-t border-amber-900/20">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-800/40 bg-amber-950/40 text-amber-400 text-xs font-semibold mb-4">
+            <Sparkles className="w-4 h-4" />
+            Clear & Transparent Pricing
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+            Choose Your Physics Batch
+          </h2>
+          <p className="text-stone-400 max-w-2xl mx-auto text-base">
+            Select the tier that fits your exam target. Whether strengthening one weak topic or aiming for top AIR ranks.
+          </p>
+        </div>
+
+        {/* 3 Pricing Cards */}
+        <div className="grid md:grid-cols-3 gap-8 mb-20">
+          {/* Card 1: Single Topic */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-3xl p-8 bg-amber-950/20 border border-amber-900/30 backdrop-blur-md flex flex-col justify-between hover:border-amber-700/50 transition-all duration-300"
+          >
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-stone-400 block mb-2">Subject Starter</span>
+              <h3 className="text-2xl font-bold text-white mb-2">Single Chapter</h3>
+              <p className="text-xs text-stone-400 mb-6">Target your weakest physics topic with full conceptual depth.</p>
+              <div className="mb-6 flex items-baseline gap-2">
+                <span className="text-4xl font-extrabold text-white">₹1,999</span>
+                <span className="text-xs text-stone-500">/ per chapter</span>
+              </div>
+              <ul className="space-y-3 text-sm text-stone-300 mb-8 border-t border-amber-900/20 pt-6">
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  Full Chapter HD Video Lectures
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  PDF Formula Sheet & DPPs
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  1 Year Unlimited Access
+                </li>
+                <li className="flex items-center gap-2.5 text-stone-600 line-through">
+                  <X className="w-4 h-4 text-stone-600 shrink-0" />
+                  Live Doubt Sessions
+                </li>
+                <li className="flex items-center gap-2.5 text-stone-600 line-through">
+                  <X className="w-4 h-4 text-stone-600 shrink-0" />
+                  Personal Mentorship
+                </li>
+              </ul>
+            </div>
+            <Link
+              href="/signup"
+              className="w-full py-3.5 rounded-xl border border-amber-800/40 text-amber-300 font-bold text-center text-sm hover:bg-amber-900/30 transition-all block"
+            >
+              Enroll Single Topic
+            </Link>
+          </motion.div>
+
+          {/* Card 2: Complete Physics (Most Popular) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="rounded-3xl p-8 bg-gradient-to-b from-amber-950/50 to-stone-950 border-2 border-amber-500/80 backdrop-blur-md flex flex-col justify-between shadow-[0_0_50px_rgba(245,158,11,0.2)] relative hover:scale-[1.02] transition-all duration-300"
+          >
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-orange-500 text-black text-xs font-extrabold uppercase tracking-widest px-4 py-1 rounded-full shadow-lg whitespace-nowrap">
+              Most Popular • Best Value
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-2">Full Year Batch</span>
+              <h3 className="text-2xl font-bold text-white mb-2">Class 11 or 12 Complete</h3>
+              <p className="text-xs text-stone-400 mb-6">Complete syllabus coverage for Board + JEE/NEET.</p>
+              <div className="mb-6 flex items-baseline gap-2">
+                <span className="text-4xl font-extrabold text-amber-400">₹8,999</span>
+                <span className="text-xs text-stone-500 line-through">₹14,999</span>
+                <span className="text-xs text-green-400 font-semibold ml-1">40% OFF</span>
+              </div>
+              <ul className="space-y-3 text-sm text-stone-300 mb-8 border-t border-amber-900/30 pt-6">
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  All 6 Core Physics Modules
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  Weekly Live Doubt-Solving Sessions
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  5000+ Practice MCQs & PYQs
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  Full Length Mock Test Series
+                </li>
+                <li className="flex items-center gap-2.5 text-stone-600 line-through">
+                  <X className="w-4 h-4 text-stone-600 shrink-0" />
+                  1-on-1 Personal Call with Ankit Sir
+                </li>
+              </ul>
+            </div>
+            <Link
+              href="/signup"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-extrabold text-center text-sm shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:scale-105 transition-all block"
+            >
+              Get Full Batch
+            </Link>
+          </motion.div>
+
+          {/* Card 3: Elite Mentorship */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="rounded-3xl p-8 bg-amber-950/20 border border-amber-900/30 backdrop-blur-md flex flex-col justify-between hover:border-amber-700/50 transition-all duration-300"
+          >
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-stone-400 block mb-2">Rankers Program</span>
+              <h3 className="text-2xl font-bold text-white mb-2">Elite Rankers Pro</h3>
+              <p className="text-xs text-stone-400 mb-6">Full syllabus + personal 1-on-1 guidance by Ankit Sir.</p>
+              <div className="mb-6 flex items-baseline gap-2">
+                <span className="text-4xl font-extrabold text-white">₹16,499</span>
+                <span className="text-xs text-stone-500">/ 2 Years Valid</span>
+              </div>
+              <ul className="space-y-3 text-sm text-stone-300 mb-8 border-t border-amber-900/20 pt-6">
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  Everything in Full Batch
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  1-on-1 Mentorship Calls with Ankit Sir
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  Priority Instant Doubt WhatsApp Group
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  Personal Study Roadmap & Analysis
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  JEE Adv / NEET Rank Booster Problem Sets
+                </li>
+              </ul>
+            </div>
+            <Link
+              href="/signup"
+              className="w-full py-3.5 rounded-xl border border-amber-800/40 text-amber-300 font-bold text-center text-sm hover:bg-amber-900/30 transition-all block"
+            >
+              Apply for Rankers Pro
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* DIFFERENTIATION COMPARISON MATRIX TABLE */}
+        <div className="mt-16">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+              Plan Differentiation & Feature Matrix
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-400">
+              Detailed side-by-side comparison of every feature included in our programs.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 overflow-hidden backdrop-blur-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-amber-950/40 text-stone-400 uppercase text-xs font-semibold tracking-wider border-b border-amber-900/30">
+                  <tr>
+                    <th className="px-6 py-5">Features & Deliverables</th>
+                    <th className="px-6 py-5 text-center">Single Topic (₹1,999)</th>
+                    <th className="px-6 py-5 text-center text-amber-400">Full Batch (₹8,999)</th>
+                    <th className="px-6 py-5 text-center">Rankers Pro (₹16,499)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-amber-900/20 text-stone-300">
+                  {[
+                    { feature: "Comprehensive Video Lectures", single: "1 Chapter", full: "All 6 Modules", pro: "All 6 Modules + Revision" },
+                    { feature: "Formula Sheets & Handwritten Notes", single: true, full: true, pro: true },
+                    { feature: "Daily Practice Problem Sets (DPPs)", single: "Topic wise", full: "Complete (5000+ MCQs)", pro: "Advanced & Olympiad Level" },
+                    { feature: "Previous 10 Years Solved Questions", single: true, full: true, pro: true },
+                    { feature: "Live Doubt Clearing Classes", single: false, full: "Weekly Live Sessions", pro: "Unlimited Daily Priority" },
+                    { feature: "Full Syllabus Mock Test Series", single: false, full: "20 Mock Tests", pro: "40+ All-India Tests" },
+                    { feature: "1-on-1 Guidance with Ankit Sir", single: false, full: false, pro: "Bi-Weekly Calls" },
+                    { feature: "Dedicated Telegram/WhatsApp Group", single: false, full: "Community Access", pro: "Direct VIP Channel" },
+                    { feature: "Validity Period", single: "1 Year", full: "1 Year", pro: "2 Full Years" },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-amber-900/10 transition-colors">
+                      <td className="px-6 py-4 font-medium text-white">{row.feature}</td>
+
+                      {/* Single */}
+                      <td className="px-6 py-4 text-center">
+                        {typeof row.single === "boolean" ? (
+                          row.single ? (
+                            <CheckCircle2 className="w-5 h-5 text-amber-400 mx-auto" />
+                          ) : (
+                            <X className="w-5 h-5 text-stone-600 mx-auto" />
+                          )
+                        ) : (
+                          <span className="text-xs text-stone-300">{row.single}</span>
+                        )}
+                      </td>
+
+                      {/* Full */}
+                      <td className="px-6 py-4 text-center bg-amber-950/20">
+                        {typeof row.full === "boolean" ? (
+                          row.full ? (
+                            <CheckCircle2 className="w-5 h-5 text-amber-400 mx-auto" />
+                          ) : (
+                            <X className="w-5 h-5 text-stone-600 mx-auto" />
+                          )
+                        ) : (
+                          <span className="text-xs font-semibold text-amber-400">{row.full}</span>
+                        )}
+                      </td>
+
+                      {/* Pro */}
+                      <td className="px-6 py-4 text-center">
+                        {typeof row.pro === "boolean" ? (
+                          row.pro ? (
+                            <CheckCircle2 className="w-5 h-5 text-green-400 mx-auto" />
+                          ) : (
+                            <X className="w-5 h-5 text-stone-600 mx-auto" />
+                          )
+                        ) : (
+                          <span className="text-xs font-semibold text-green-400">{row.pro}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6: FAQS (FREQUENTLY ASKED QUESTIONS) */}
       <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-800/40 bg-amber-950/40 text-amber-400 text-xs font-semibold mb-4">
