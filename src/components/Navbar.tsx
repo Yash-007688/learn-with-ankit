@@ -12,6 +12,7 @@ export default function Navbar() {
   const links = [
     { name: "Home", href: "/" },
     { name: "Courses", href: "/courses" },
+    { name: "Free Resources", href: "/free-resources" },
   ];
 
   return (

@@ -101,7 +101,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-stone-500 text-sm">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-stone-600" />
-              <span>© 2026 Learn with Ankit. All rights reserved.</span>
+              <span>© 2026 Building_void. All rights reserved.</span>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
               <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
