@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle2 } from "lucide-react";
 import { signupWithPassword } from "@/lib/auth/passwordAuth";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 
 export default function PasswordSignupForm({ onSuccess }: { onSuccess?: () => void }) {
   const [fullName, setFullName] = useState("");
@@ -65,6 +66,7 @@ export default function PasswordSignupForm({ onSuccess }: { onSuccess?: () => vo
   }
 
   return (
+    <div className="space-y-4">
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
         <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs">
@@ -158,5 +160,8 @@ export default function PasswordSignupForm({ onSuccess }: { onSuccess?: () => vo
         {loading ? "Creating Account..." : "Create Account with Password"}
       </button>
     </form>
+
+      <GoogleAuthButton label="Sign up with Google" />
+    </div>
   );
 }

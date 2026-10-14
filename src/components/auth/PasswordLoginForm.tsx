@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eye, EyeOff, Mail, Lock, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { loginWithPassword } from "@/lib/auth/passwordAuth";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 
 export default function PasswordLoginForm() {
   const router = useRouter();
@@ -12,6 +13,13 @@ export default function PasswordLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const oauthError = new URLSearchParams(window.location.search).get("error");
+    if (oauthError) {
+      setError(oauthError);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +45,7 @@ export default function PasswordLoginForm() {
   };
 
   return (
+    <div className="space-y-4">
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
         <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs">
@@ -94,5 +103,8 @@ export default function PasswordLoginForm() {
         {loading ? "Signing in..." : "Sign In with Password"}
       </button>
     </form>
+
+      <GoogleAuthButton label="Sign in with Google" />
+    </div>
   );
 }

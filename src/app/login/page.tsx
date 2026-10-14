@@ -57,7 +57,7 @@ export default function LoginPage() {
             }`}
           >
             <KeyRound className="w-3.5 h-3.5" />
-            Password
+            Email
           </button>
         </div>
 
