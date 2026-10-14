@@ -110,14 +110,19 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Powered by */}
+          {/* Managed and Powered by */}
           <div className="mt-8 flex justify-center">
-            <p className="text-xs text-stone-600 tracking-widest uppercase flex items-center gap-2">
-              Powered by{" "}
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-stone-400 to-stone-500 tracking-widest">
-                BUILDING_VOID
+            <Link
+              href="https://build-void.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-stone-500 tracking-widest uppercase flex items-center gap-2 hover:text-amber-400 transition-colors group"
+            >
+              Managed and Powered by{" "}
+              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400 group-hover:from-amber-300 group-hover:to-orange-300 tracking-widest underline decoration-amber-500/40 underline-offset-4">
+                Building_Void
               </span>
-            </p>
+            </Link>
           </div>
         </div>
       </div>

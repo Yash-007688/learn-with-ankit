@@ -58,4 +58,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📄 License & Credits
 © 2026 Learn with Ankit. All rights reserved.  
-Powered by **BUILDING_VOID**.
+Managed and Powered by [**Building_Void**](https://build-void.vercel.app/).
