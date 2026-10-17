@@ -8,6 +8,14 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Learn with Ankit | Master Physics",
   description: "Learn with Ankit Yadav. Interactive, dynamic, and intuitive physics learning platform.",
+  icons: [
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "any",
+      url: "/favicon.png",
+    },
+  ],
 };
 
 export default function RootLayout({

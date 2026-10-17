@@ -24,8 +24,11 @@ import {
   Calendar
 } from "lucide-react";
 
+import { createClient } from "@/lib/supabase/client";
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminUser, setAdminUser] = useState<{ email?: string; name?: string; role?: string } | null>(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -52,34 +55,86 @@ export default function AdminPage() {
   const [newCoursePrice, setNewCoursePrice] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Check login on mount from sessionStorage
+  // Check login on mount from Supabase auth and sessionStorage
   useEffect(() => {
-    const authStatus = sessionStorage.getItem("admin_auth");
-    if (authStatus === "true") {
-      setIsAuthenticated(true);
+    const supabase = createClient();
+
+    async function checkAuth() {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const userEmail = (user.email || "").toLowerCase().trim();
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("role, full_name")
+            .eq("id", user.id)
+            .maybeSingle();
+
+          const role = profile?.role;
+          const isKnownAdmin =
+            userEmail === "yashrajmoolchandani@gmail.com" ||
+            userEmail === "yashrajmmolchandani@gmail.com";
+
+          if (role === "admin" || role === "dev" || isKnownAdmin) {
+            setIsAuthenticated(true);
+            setAdminUser({
+              email: user.email,
+              name: profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || "Admin",
+              role: role || "admin",
+            });
+            sessionStorage.setItem("admin_auth", "true");
+            sessionStorage.setItem("admin_email", userEmail);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("Error checking Supabase auth:", err);
+      }
+
+      const authStatus = sessionStorage.getItem("admin_auth");
+      if (authStatus === "true") {
+        setIsAuthenticated(true);
+        setAdminUser({
+          email: sessionStorage.getItem("admin_email") || "admin",
+          name: "Admin",
+          role: "admin",
+        });
+      }
     }
+
+    checkAuth();
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanUsername = username.trim().toLowerCase();
-    const validEmails = ["yashrajmmolchandani@gmail.com", "admin"];
+    const validEmails = ["yashrajmmolchandani@gmail.com", "yashrajmoolchandani@gmail.com", "admin"];
     
     if (validEmails.includes(cleanUsername) && password === "admin") {
       setIsAuthenticated(true);
       sessionStorage.setItem("admin_auth", "true");
       sessionStorage.setItem("admin_email", cleanUsername);
+      setAdminUser({ email: cleanUsername, name: "Admin", role: "admin" });
       setLoginError("");
     } else {
       setLoginError("Invalid credentials! Enter valid admin email and password.");
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const supabase = createClient();
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      // ignore
+    }
     setIsAuthenticated(false);
+    setAdminUser(null);
     sessionStorage.removeItem("admin_auth");
+    sessionStorage.removeItem("admin_email");
     setUsername("");
     setPassword("");
+    window.location.href = "/";
   };
 
   const handleAddCourse = (e: React.FormEvent) => {
