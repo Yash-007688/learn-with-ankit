@@ -1495,17 +1495,43 @@ export default function AdminPage() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-300 uppercase mb-1.5">
-                      Notes / DPP Download Link (Optional)
-                    </label>
+                  {/* Google Drive / Cloud File Input */}
+                  <div className="p-3.5 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-xs">
+                          📁
+                        </div>
+                        <span className="text-xs font-bold text-white uppercase">Google Drive / File URL</span>
+                      </div>
+                      {uploadForm.paid_file_url?.includes("drive.google.com") && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">
+                          Google Drive Detected
+                        </span>
+                      )}
+                    </div>
+
                     <input
                       type="url"
                       value={uploadForm.paid_file_url}
                       onChange={(e) => setUploadForm({ ...uploadForm, paid_file_url: e.target.value })}
-                      placeholder="https://drive.google.com/... or Cloud Storage PDF"
-                      className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm"
+                      placeholder="Paste Google Drive share link, PDF URL, or Cloud link..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-xs"
                     />
+
+                    {uploadForm.paid_file_url && (
+                      <div className="flex items-center justify-between text-[11px] text-stone-400 pt-1">
+                        <span>Make sure sharing is set to: &quot;Anyone with link can view&quot;</span>
+                        <a
+                          href={uploadForm.paid_file_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-amber-400 hover:underline flex items-center gap-1 font-semibold"
+                        >
+                          Test Link <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2 pt-1">
@@ -1555,16 +1581,44 @@ export default function AdminPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-300 uppercase mb-1.5">File / PDF URL</label>
+                  {/* Google Drive / PDF URL Field for Free Resource */}
+                  <div className="p-3.5 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-md bg-white/10 flex items-center justify-center text-xs">
+                          📁
+                        </div>
+                        <span className="text-xs font-bold text-white uppercase">Google Drive Link / PDF URL</span>
+                      </div>
+                      {uploadForm.file_url?.includes("drive.google.com") && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">
+                          Google Drive Detected
+                        </span>
+                      )}
+                    </div>
+
                     <input
                       type="url"
                       required
                       value={uploadForm.file_url}
                       onChange={(e) => setUploadForm({ ...uploadForm, file_url: e.target.value })}
-                      placeholder="https://drive.google.com/... or PDF link"
-                      className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-sm"
+                      placeholder="Paste Google Drive share link (e.g. https://drive.google.com/file/d/...)"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-amber-900/40 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 text-xs"
                     />
+
+                    {uploadForm.file_url && (
+                      <div className="flex items-center justify-between text-[11px] text-stone-400 pt-1">
+                        <span>Ensure Google Drive link access is &quot;Anyone with the link can view&quot;</span>
+                        <a
+                          href={uploadForm.file_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-amber-400 hover:underline flex items-center gap-1 font-semibold"
+                        >
+                          Test Link <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    )}
                   </div>
 
                   <div>
@@ -1573,7 +1627,7 @@ export default function AdminPage() {
                       type="text"
                       value={uploadForm.file_size}
                       onChange={(e) => setUploadForm({ ...uploadForm, file_size: e.target.value })}
-                      placeholder="e.g. 3.2 MB"
+                      placeholder="e.g. 2.4 MB"
                       className="w-full px-4 py-2.5 rounded-xl bg-stone-900 border border-amber-900/40 text-white text-sm"
                     />
                   </div>
