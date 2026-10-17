@@ -197,10 +197,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { icon: Users, stat: "10,000+", label: "Students Taught", color: "text-amber-400" },
-              { icon: Trophy, stat: "500+", label: "JEE/NEET Selections", color: "text-yellow-400" },
-              { icon: Star, stat: "4.9/5", label: "Average Rating", color: "text-orange-400" },
-              { icon: BookOpen, stat: "50+", label: "Courses Available", color: "text-amber-300" },
+              { icon: Zap, stat: "Visual Intuition", label: "Derivations Made Simple", color: "text-amber-400" },
+              { icon: Trophy, stat: "JEE & NEET", label: "Pattern-Aligned Practice", color: "text-yellow-400" },
+              { icon: Star, stat: "Mentorship", label: "Direct Doubt Clearing", color: "text-orange-400" },
+              { icon: BookOpen, stat: "Foundation", label: "Class 11, 12 & Droppers", color: "text-amber-300" },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -213,8 +213,8 @@ export default function Home() {
                 <div className={`mb-3 p-3 rounded-2xl bg-amber-900/20 group-hover:bg-amber-900/40 transition-colors border border-amber-800/30 ${item.color}`}>
                   <item.icon className="w-6 h-6" />
                 </div>
-                <h4 className="text-3xl font-bold text-white mb-1">{item.stat}</h4>
-                <p className="text-sm text-stone-400">{item.label}</p>
+                <h4 className="text-xl sm:text-2xl font-bold text-white mb-1">{item.stat}</h4>
+                <p className="text-xs sm:text-sm text-stone-400">{item.label}</p>
               </motion.div>
             ))}
           </div>
