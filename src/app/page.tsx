@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/lib/auth/useAuth";
 
 export default function Home() {
+  const { isLoggedIn, isAdmin } = useAuth();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [submittingContact, setSubmittingContact] = useState(false);
@@ -137,12 +139,21 @@ export default function Home() {
                 Explore Curriculum
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                href="/signup"
-                className="inline-flex h-14 items-center justify-center rounded-full border border-amber-700/40 bg-amber-900/10 px-8 font-semibold text-amber-300 transition-all hover:bg-amber-900/30 hover:scale-105 backdrop-blur-sm"
-              >
-                Create Free Account
-              </Link>
+              {isLoggedIn ? (
+                <Link
+                  href={isAdmin ? "/admin" : "/free-resources"}
+                  className="inline-flex h-14 items-center justify-center rounded-full border border-amber-700/40 bg-amber-900/10 px-8 font-semibold text-amber-300 transition-all hover:bg-amber-900/30 hover:scale-105 backdrop-blur-sm"
+                >
+                  {isAdmin ? "Open Admin Portal" : "Free Resources"}
+                </Link>
+              ) : (
+                <Link
+                  href="/signup"
+                  className="inline-flex h-14 items-center justify-center rounded-full border border-amber-700/40 bg-amber-900/10 px-8 font-semibold text-amber-300 transition-all hover:bg-amber-900/30 hover:scale-105 backdrop-blur-sm"
+                >
+                  Create Free Account
+                </Link>
+              )}
             </motion.div>
           </div>
 
@@ -411,10 +422,10 @@ export default function Home() {
               </ul>
             </div>
             <Link
-              href="/signup"
+              href={isLoggedIn ? "/courses" : "/signup"}
               className="w-full py-3.5 rounded-xl border border-amber-800/40 text-amber-300 font-bold text-center text-sm hover:bg-amber-900/30 transition-all block"
             >
-              Enroll Single Topic
+              {isLoggedIn ? "View Topic Curriculum" : "Enroll Single Topic"}
             </Link>
           </motion.div>
 
@@ -462,10 +473,10 @@ export default function Home() {
               </ul>
             </div>
             <Link
-              href="/signup"
+              href={isLoggedIn ? "/courses" : "/signup"}
               className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-extrabold text-center text-sm shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:scale-105 transition-all block"
             >
-              Get Full Batch
+              {isLoggedIn ? "Enroll in Full Batch" : "Get Full Batch"}
             </Link>
           </motion.div>
 
@@ -509,10 +520,10 @@ export default function Home() {
               </ul>
             </div>
             <Link
-              href="/signup"
+              href={isLoggedIn ? "/#contact" : "/signup"}
               className="w-full py-3.5 rounded-xl border border-amber-800/40 text-amber-300 font-bold text-center text-sm hover:bg-amber-900/30 transition-all block"
             >
-              Apply for Rankers Pro
+              {isLoggedIn ? "Inquire for Rankers Pro" : "Apply for Rankers Pro"}
             </Link>
           </motion.div>
         </div>

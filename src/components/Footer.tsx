@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Sparkles, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { useAuth } from "@/lib/auth/useAuth";
 
 export default function Footer() {
+  const { isLoggedIn, isAdmin } = useAuth();
   const socialLinks = [
     {
       name: "WhatsApp",
@@ -64,13 +66,23 @@ export default function Footer() {
           <p className="text-stone-400 mb-8 max-w-xl mx-auto">
             Join thousands of students mastering physics with Ankit Sir. Start for free today.
           </p>
-          <Link
-            href="/signup"
-            className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-10 font-bold text-black transition-all hover:scale-105 shadow-[0_0_40px_rgba(245,158,11,0.4)] group"
-          >
-            Create Free Account
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href={isAdmin ? "/admin" : "/courses"}
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-10 font-bold text-black transition-all hover:scale-105 shadow-[0_0_40px_rgba(245,158,11,0.4)] group"
+            >
+              {isAdmin ? "Open Admin Portal" : "Explore Physics Curriculum"}
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          ) : (
+            <Link
+              href="/signup"
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-10 font-bold text-black transition-all hover:scale-105 shadow-[0_0_40px_rgba(245,158,11,0.4)] group"
+            >
+              Create Free Account
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          )}
         </motion.div>
 
         {/* Social Links */}

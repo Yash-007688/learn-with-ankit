@@ -6,20 +6,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, LogOut, ChevronDown, User as UserIcon } from "lucide-react";
+import { useAuth } from "@/lib/auth/useAuth";
 import { createClient } from "@/lib/supabase/client";
-
-interface AuthUser {
-  id: string;
-  email?: string;
-  name?: string;
-  avatarUrl?: string | null;
-  role: "admin" | "dev" | "student";
-}
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading, isLoggedIn, isAdmin } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -40,73 +32,13 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Fetch Supabase user and profile
-  useEffect(() => {
-    const supabase = createClient();
-
-    async function loadUser() {
-      try {
-        const { data: { user: authUser } } = await supabase.auth.getUser();
-        if (authUser) {
-          const userEmail = (authUser.email || "").toLowerCase().trim();
-          const { data: profile } = await supabase
-            .from("profiles")
-            .select("role, full_name, avatar_url")
-            .eq("id", authUser.id)
-            .maybeSingle();
-
-          const isKnownAdmin =
-            userEmail === "yashrajmoolchandani@gmail.com" ||
-            userEmail === "yashrajmmolchandani@gmail.com";
-
-          const role = (profile?.role as "admin" | "dev" | "student") || (isKnownAdmin ? "admin" : "student");
-          const name =
-            profile?.full_name ||
-            authUser.user_metadata?.full_name ||
-            authUser.user_metadata?.name ||
-            userEmail.split("@")[0] ||
-            "User";
-          const avatarUrl =
-            profile?.avatar_url ||
-            authUser.user_metadata?.avatar_url ||
-            authUser.user_metadata?.picture ||
-            null;
-
-          setUser({
-            id: authUser.id,
-            email: authUser.email,
-            name,
-            avatarUrl,
-            role,
-          });
-        } else {
-          setUser(null);
-        }
-      } catch (err) {
-        console.error("Error loading auth user:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadUser();
-
-    // Listen for auth state changes (login, logout, token refresh)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      loadUser();
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
   const handleSignOut = async () => {
     const supabase = createClient();
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {}
     sessionStorage.removeItem("admin_auth");
     sessionStorage.removeItem("admin_email");
-    setUser(null);
     setDropdownOpen(false);
     window.location.href = "/";
   };

@@ -1,14 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Atom, Phone, KeyRound } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PasswordSignupForm from "@/components/auth/PasswordSignupForm";
 import PhoneOtpSignupForm from "@/components/auth/PhoneOtpSignupForm";
+import { useAuth } from "@/lib/auth/useAuth";
 
 export default function SignupPage() {
   const [authMode, setAuthMode] = useState<"phone" | "password">("phone");
+  const { isLoggedIn, isAdmin, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && isLoggedIn) {
+      router.replace(isAdmin ? "/admin" : "/");
+    }
+  }, [loading, isLoggedIn, isAdmin, router]);
+
+  if (loading || isLoggedIn) {
+    return (
+      <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center bg-[#0a0500]">
+        <div className="w-8 h-8 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center bg-[#0a0500] py-12 px-4 relative overflow-hidden">
