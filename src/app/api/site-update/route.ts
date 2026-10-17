@@ -41,7 +41,6 @@ async function fetchLatestGitHubCommit(): Promise<SiteUpdate | null> {
     const latest = commits[0];
     const sha: string = latest.sha || "";
     const dateStr: string = latest.commit?.author?.date || "";
-    const authorEmail: string = latest.commit?.author?.email || "Unknown";
     const message: string = (latest.commit?.message || "").trim();
 
     // dateStr looks like "2026-10-17T22:14:57Z"
@@ -66,7 +65,7 @@ async function fetchLatestGitHubCommit(): Promise<SiteUpdate | null> {
       github_change_no: sha.slice(0, 7),
       github_change_date,
       github_change_time,
-      updated_by: authorEmail,
+      updated_by: "amitshrivastva@buildingvoid.com",
       commit_message: message,
     };
   } catch {
