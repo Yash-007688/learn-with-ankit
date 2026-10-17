@@ -21,7 +21,12 @@ import {
   EyeOff,
   Sparkles,
   BarChart3,
-  Calendar
+  Calendar,
+  Mail,
+  Phone,
+  MessageSquare,
+  Clock,
+  User
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
@@ -55,6 +60,27 @@ export default function AdminPage() {
   const [newCoursePrice, setNewCoursePrice] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const [liveProfiles, setLiveProfiles] = useState<any[]>([]);
+  const [liveQueries, setLiveQueries] = useState<any[]>([]);
+  const [loadingData, setLoadingData] = useState(false);
+
+  // Fetch real Supabase data for admin dashboard
+  const fetchAdminData = async () => {
+    setLoadingData(true);
+    try {
+      const res = await fetch("/api/admin/data");
+      if (res.ok) {
+        const json = await res.json();
+        setLiveProfiles(json.profiles || []);
+        setLiveQueries(json.queries || []);
+      }
+    } catch (e) {
+      console.error("Failed to load admin data:", e);
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
   // Check login on mount from Supabase auth and sessionStorage
   useEffect(() => {
     const supabase = createClient();
@@ -84,6 +110,7 @@ export default function AdminPage() {
             });
             sessionStorage.setItem("admin_auth", "true");
             sessionStorage.setItem("admin_email", userEmail);
+            fetchAdminData();
             return;
           }
         }
@@ -99,6 +126,7 @@ export default function AdminPage() {
           name: "Admin",
           role: "admin",
         });
+        fetchAdminData();
       }
     }
 
@@ -331,12 +359,25 @@ export default function AdminPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="p-6 rounded-2xl bg-amber-950/20 border border-amber-900/30">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Total Enrolled</span>
+              <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Registered Users</span>
               <Users className="w-5 h-5 text-amber-400" />
             </div>
-            <div className="text-3xl font-extrabold text-white mb-1">{totalStudents.toLocaleString()}+</div>
+            <div className="text-3xl font-extrabold text-white mb-1">
+              {liveProfiles.length > 0 ? liveProfiles.length : totalStudents.toLocaleString()}
+            </div>
+            <span className="text-xs text-amber-400 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5" /> Supabase Profiles Connected
+            </span>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-amber-950/20 border border-amber-900/30">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Student Queries</span>
+              <MessageSquare className="w-5 h-5 text-amber-400" />
+            </div>
+            <div className="text-3xl font-extrabold text-white mb-1">{liveQueries.length}</div>
             <span className="text-xs text-green-400 flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5" /> +14% this month
+              <CheckCircle2 className="w-3.5 h-3.5" /> Live inquiries from website
             </span>
           </div>
 
@@ -359,21 +400,127 @@ export default function AdminPage() {
               <TrendingUp className="w-3.5 h-3.5" /> +22% vs last month
             </span>
           </div>
+        </div>
 
-          <div className="p-6 rounded-2xl bg-amber-950/20 border border-amber-900/30">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Doubts Answered</span>
-              <CheckCircle2 className="w-5 h-5 text-amber-400" />
+        {/* Live Incoming Student Queries (Supabase) */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-bold text-white tracking-tight">Student Inquiries & Leads</h2>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+                Live Supabase
+              </span>
             </div>
-            <div className="text-3xl font-extrabold text-white mb-1">98.8%</div>
-            <span className="text-xs text-stone-400">Avg resolution time: 4 hrs</span>
+            <span className="text-xs text-stone-400">{liveQueries.length} inquiries</span>
+          </div>
+
+          <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 p-6 backdrop-blur-sm">
+            {liveQueries.length === 0 ? (
+              <div className="py-8 text-center text-stone-500 text-sm">
+                No inquiries submitted yet. When students submit the contact form on the home page, inquiries will appear here in real-time.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {liveQueries.map((q) => (
+                  <div key={q.id} className="p-4 rounded-xl bg-amber-950/20 border border-amber-900/30 space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-white text-sm">{q.name}</span>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] uppercase font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                          {q.subject}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-stone-500 flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {new Date(q.created_at).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-stone-300 bg-stone-900/60 p-3 rounded-lg border border-amber-900/20">
+                      {q.message}
+                    </p>
+
+                    <div className="flex flex-wrap gap-4 text-xs text-stone-400 pt-1">
+                      <span className="flex items-center gap-1.5 text-amber-300">
+                        <Mail className="w-3.5 h-3.5" /> {q.email}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-stone-300">
+                        <Phone className="w-3.5 h-3.5" /> {q.phone_number}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Live Registered Profiles (Supabase) */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-bold text-white tracking-tight">Registered Profiles & Users</h2>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+                Live Supabase
+              </span>
+            </div>
+            <span className="text-xs text-stone-400">{liveProfiles.length} registered</span>
+          </div>
+
+          <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 p-6 backdrop-blur-sm">
+            {liveProfiles.length === 0 ? (
+              <div className="py-8 text-center text-stone-500 text-sm">
+                No users registered yet.
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {liveProfiles.map((p) => (
+                  <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-amber-950/15 border border-amber-900/20 gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-amber-900/40 border border-amber-500/40 shrink-0 relative flex items-center justify-center">
+                        {p.avatar_url ? (
+                          <img src={p.avatar_url} alt={p.full_name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        ) : (
+                          <User className="w-5 h-5 text-amber-300" />
+                        )}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-sm">{p.full_name || "Unnamed"}</h3>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold ${
+                            p.role === "admin"
+                              ? "bg-red-950/60 text-red-400 border border-red-800/40"
+                              : p.role === "dev"
+                              ? "bg-purple-950/60 text-purple-400 border border-purple-800/40"
+                              : "bg-green-950/60 text-green-400 border border-green-800/40"
+                          }`}>
+                            {p.role}
+                          </span>
+                        </div>
+                        <p className="text-xs text-stone-400">{p.email || "No email"} • {p.class || "Class 11"}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-stone-500 flex items-center gap-1.5 self-start sm:self-auto">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {p.created_at ? new Date(p.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "Recent"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Course Management Table */}
         <div className="mb-12">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-white tracking-tight">Active Courses Management</h2>
+            <h2 className="text-xl font-bold text-white tracking-tight">Active Courses Catalog</h2>
             <span className="text-xs text-stone-400">{courses.length} listed</span>
           </div>
 
@@ -417,27 +564,6 @@ export default function AdminPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Enrollments */}
-        <div>
-          <h2 className="text-xl font-bold text-white tracking-tight mb-4">Recent Enrollments</h2>
-          <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 p-6 backdrop-blur-sm">
-            <div className="space-y-4">
-              {students.map((student) => (
-                <div key={student.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-amber-950/15 border border-amber-900/20 gap-2">
-                  <div>
-                    <h3 className="font-bold text-white text-sm">{student.name}</h3>
-                    <p className="text-xs text-stone-400">{student.email} • Enrolled in <span className="text-amber-400 font-medium">{student.course}</span></p>
-                  </div>
-                  <span className="text-xs text-stone-500 flex items-center gap-1.5 self-start sm:self-auto">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {student.date}
-                  </span>
-                </div>
-              ))}
             </div>
           </div>
         </div>

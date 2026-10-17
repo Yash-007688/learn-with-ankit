@@ -10,10 +10,12 @@ import {
   ChevronDown, Mail, Phone, MessageSquare, Send, HelpCircle, X, ShieldCheck
 } from "lucide-react";
 import Footer from "@/components/Footer";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [submittingContact, setSubmittingContact] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -22,13 +24,31 @@ export default function Home() {
     message: "",
   });
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setContactSubmitted(true);
-    setTimeout(() => {
-      setContactForm({ name: "", email: "", phone: "", subject: "Course Inquiry", message: "" });
-      setContactSubmitted(false);
-    }, 4000);
+    setSubmittingContact(true);
+    try {
+      const supabase = createClient();
+      await supabase.from("queries").insert([
+        {
+          name: contactForm.name,
+          phone_number: contactForm.phone,
+          email: contactForm.email,
+          subject: contactForm.subject,
+          message: contactForm.message,
+          status: "new",
+        },
+      ]);
+    } catch (err) {
+      console.error("Failed to save contact query:", err);
+    } finally {
+      setSubmittingContact(false);
+      setContactSubmitted(true);
+      setTimeout(() => {
+        setContactForm({ name: "", email: "", phone: "", subject: "Course Inquiry", message: "" });
+        setContactSubmitted(false);
+      }, 4000);
+    }
   };
 
   const faqs = [
@@ -791,10 +811,11 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className="w-full h-13 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 font-bold text-black flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_25px_rgba(245,158,11,0.3)] cursor-pointer"
+                  disabled={submittingContact}
+                  className="w-full h-13 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 font-bold text-black flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_25px_rgba(245,158,11,0.3)] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Send className="w-4 h-4" />
-                  Submit Inquiry
+                  {submittingContact ? "Sending Inquiry..." : "Submit Inquiry"}
                 </button>
               </form>
             )}
