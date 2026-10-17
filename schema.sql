@@ -107,6 +107,41 @@ CREATE TABLE IF NOT EXISTS public.testimonials (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- 8. GIT UPDATES TABLE (Latest deployed GitHub change shown in the home-page footer)
+CREATE TABLE IF NOT EXISTS public.git_updates (
+    id BIGSERIAL PRIMARY KEY,
+    github_change_no VARCHAR(40) NOT NULL,
+    github_change_date DATE NOT NULL,
+    github_change_time TIME NOT NULL,
+    updated_by TEXT NOT NULL,
+    commit_message TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT git_updates_change_no_not_blank CHECK (LENGTH(TRIM(github_change_no)) > 0)
+);
+
+-- Seed the latest GitHub change. Re-running this script safely refreshes this row.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_git_updates_change_no ON public.git_updates(github_change_no);
+
+INSERT INTO public.git_updates (
+    github_change_no,
+    github_change_date,
+    github_change_time,
+    updated_by,
+    commit_message
+)
+VALUES (
+    '960a7a9',
+    DATE '2026-10-17',
+    TIME '22:14:57',
+    'amitshrivastva@buildingvoid.com',
+    'Add Google Drive upload integration, and organize Courses and Free Resources pages'
+)
+ON CONFLICT (github_change_no) DO UPDATE SET
+    github_change_date = EXCLUDED.github_change_date,
+    github_change_time = EXCLUDED.github_change_time,
+    updated_by = EXCLUDED.updated_by,
+    commit_message = EXCLUDED.commit_message;
+
 -- ==============================================================================
 -- INDEXES FOR MAXIMUM QUERY PERFORMANCE
 -- ==============================================================================
@@ -117,6 +152,7 @@ CREATE INDEX IF NOT EXISTS idx_payments_user_id ON public.payments(user_id);
 CREATE INDEX IF NOT EXISTS idx_payments_status ON public.payments(status);
 CREATE INDEX IF NOT EXISTS idx_queries_status ON public.queries(status);
 CREATE INDEX IF NOT EXISTS idx_testimonials_featured ON public.testimonials(is_featured);
+CREATE INDEX IF NOT EXISTS idx_git_updates_latest ON public.git_updates(github_change_date DESC, github_change_time DESC);
 
 -- ==============================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -128,6 +164,10 @@ ALTER TABLE public.paid_resources ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.queries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.git_updates ENABLE ROW LEVEL SECURITY;
+GRANT SELECT ON TABLE public.git_updates TO anon, authenticated;
+GRANT ALL ON TABLE public.git_updates TO service_role;
+GRANT USAGE, SELECT ON SEQUENCE public.git_updates_id_seq TO anon, authenticated, service_role;
 
 -- 1. Profiles Policy (Users can read and update their own profile)
 CREATE POLICY "Public profiles are viewable by owner" ON public.profiles
@@ -148,15 +188,20 @@ CREATE POLICY "Free resources are viewable by everyone" ON public.free_resources
 CREATE POLICY "Testimonials are viewable by everyone" ON public.testimonials
     FOR SELECT USING (is_featured = TRUE);
 
--- 5. Queries Policy (Anyone can insert a contact query)
+-- 5. Git updates are public read-only metadata used in the site footer.
+DROP POLICY IF EXISTS "Git updates are viewable by everyone" ON public.git_updates;
+CREATE POLICY "Git updates are viewable by everyone" ON public.git_updates
+    FOR SELECT USING (TRUE);
+
+-- 6. Queries Policy (Anyone can insert a contact query)
 CREATE POLICY "Anyone can submit a query" ON public.queries
     FOR INSERT WITH CHECK (TRUE);
 
--- 6. Payments Policy (Users can only see their own transactions)
+-- 7. Payments Policy (Users can only see their own transactions)
 CREATE POLICY "Users can view own payments" ON public.payments
     FOR SELECT USING (auth.uid() = user_id);
 
--- 7. Paid Resources Policy (Students who paid for the course or previews can view)
+-- 8. Paid Resources Policy (Students who paid for the course or previews can view)
 CREATE POLICY "Paid resources viewable by enrolled students" ON public.paid_resources
     FOR SELECT USING (
         is_preview = TRUE OR EXISTS (

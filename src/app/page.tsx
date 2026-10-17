@@ -835,7 +835,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 7: FOOTER */}
-      <Footer />
+      <Footer showSiteUpdate />
     </div>
   );
 }

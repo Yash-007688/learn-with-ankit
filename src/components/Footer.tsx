@@ -1,12 +1,58 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Sparkles, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { Sparkles, Phone, MessageCircle, ArrowRight, Clock3, GitCommitHorizontal } from "lucide-react";
 import { useAuth } from "@/lib/auth/useAuth";
+import { DEFAULT_SITE_UPDATE, type SiteUpdate } from "@/lib/site-update";
 
-export default function Footer() {
+type FooterProps = {
+  showSiteUpdate?: boolean;
+};
+
+function formatGitHubDate(date: string) {
+  const day = date.slice(0, 10);
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${day}T00:00:00Z`));
+}
+
+function formatGitHubTime(time: string) {
+  const normalized = time.length >= 8 ? time.slice(0, 8) : time;
+  return new Intl.DateTimeFormat("en-IN", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "UTC",
+  }).format(new Date(`1970-01-01T${normalized}Z`));
+}
+
+export default function Footer({ showSiteUpdate = false }: FooterProps) {
   const { isLoggedIn, isAdmin } = useAuth();
+  const [siteUpdate, setSiteUpdate] = useState<SiteUpdate>(DEFAULT_SITE_UPDATE);
+
+  useEffect(() => {
+    if (!showSiteUpdate) return;
+
+    const loadSiteUpdate = async () => {
+      try {
+        const response = await fetch("/api/site-update", { cache: "no-store" });
+        const payload = await response.json();
+
+        if (response.ok && payload.update) {
+          setSiteUpdate(payload.update as SiteUpdate);
+        }
+      } catch {
+        // The latest known update remains visible if the API is temporarily unavailable.
+      }
+    };
+
+    void loadSiteUpdate();
+  }, [showSiteUpdate]);
   const socialLinks = [
     {
       name: "WhatsApp",
@@ -109,6 +155,39 @@ export default function Footer() {
 
         {/* Divider */}
         <div className="border-t border-amber-900/20 pt-8">
+          {showSiteUpdate && (
+            <div className="mb-8 overflow-hidden rounded-2xl border border-amber-800/30 bg-amber-950/20">
+              <div className="flex items-center justify-center gap-1.5 border-b border-amber-800/20 px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-amber-300">
+                <GitCommitHorizontal className="h-4 w-4" />
+                Last GitHub update
+              </div>
+              <div className="grid grid-cols-1 gap-3 px-4 py-3 text-xs sm:grid-cols-2 sm:text-sm lg:grid-cols-4">
+                <div>
+                  <p className="text-stone-500">GitHub change no</p>
+                  <p className="mt-1 font-mono text-amber-200">{siteUpdate.github_change_no}</p>
+                </div>
+                <div>
+                  <p className="text-stone-500">GitHub date</p>
+                  <p className="mt-1 text-stone-300">{formatGitHubDate(siteUpdate.github_change_date)}</p>
+                </div>
+                <div>
+                  <p className="text-stone-500">GitHub time</p>
+                  <p className="mt-1 inline-flex items-center gap-1.5 text-stone-300">
+                    <Clock3 className="h-3.5 w-3.5 text-stone-500" />
+                    {formatGitHubTime(siteUpdate.github_change_time)} IST
+                  </p>
+                </div>
+                <div>
+                  <p className="text-stone-500">Updated by</p>
+                  <p className="mt-1 break-all text-stone-300">{siteUpdate.updated_by}</p>
+                </div>
+              </div>
+              <p className="border-t border-amber-800/20 px-4 py-2.5 text-center text-xs text-stone-500">
+                {siteUpdate.commit_message}
+              </p>
+            </div>
+          )}
+
           {/* Bottom row */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-stone-500 text-sm">
             <div className="flex items-center gap-2">
