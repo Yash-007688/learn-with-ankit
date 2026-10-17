@@ -28,7 +28,8 @@ export function useAuth() {
           const userEmail = (authUser.email || "").toLowerCase().trim();
           const isKnownAdmin =
             userEmail === "yashrajmoolchandani@gmail.com" ||
-            userEmail === "yashrajmmolchandani@gmail.com";
+            userEmail === "yashrajmmolchandani@gmail.com" ||
+            userEmail === "ankityadav.vicky@gmail.com";
 
           const { data: profile } = await supabase
             .from("profiles")

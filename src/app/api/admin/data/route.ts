@@ -34,6 +34,7 @@ export async function GET() {
     const adminEmails = [
       "yashrajmoolchandani@gmail.com",
       "yashrajmmolchandani@gmail.com",
+      "ankityadav.vicky@gmail.com",
     ];
 
     let isAuthorized = false;

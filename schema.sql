@@ -170,21 +170,26 @@ GRANT ALL ON TABLE public.git_updates TO service_role;
 GRANT USAGE, SELECT ON SEQUENCE public.git_updates_id_seq TO anon, authenticated, service_role;
 
 -- 1. Profiles Policy (Users can read and update their own profile)
+DROP POLICY IF EXISTS "Public profiles are viewable by owner" ON public.profiles;
 CREATE POLICY "Public profiles are viewable by owner" ON public.profiles
     FOR SELECT USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.profiles;
 CREATE POLICY "Users can update their own profile" ON public.profiles
     FOR UPDATE USING (auth.uid() = id);
 
 -- 2. Courses Policy (Anyone can read active courses)
+DROP POLICY IF EXISTS "Courses are viewable by everyone" ON public.courses;
 CREATE POLICY "Courses are viewable by everyone" ON public.courses
     FOR SELECT USING (status = 'active' OR auth.role() = 'service_role');
 
 -- 3. Free Resources Policy (Anyone can read published free resources)
+DROP POLICY IF EXISTS "Free resources are viewable by everyone" ON public.free_resources;
 CREATE POLICY "Free resources are viewable by everyone" ON public.free_resources
     FOR SELECT USING (is_published = TRUE);
 
 -- 4. Testimonials Policy (Anyone can read featured testimonials)
+DROP POLICY IF EXISTS "Testimonials are viewable by everyone" ON public.testimonials;
 CREATE POLICY "Testimonials are viewable by everyone" ON public.testimonials
     FOR SELECT USING (is_featured = TRUE);
 
@@ -194,14 +199,17 @@ CREATE POLICY "Git updates are viewable by everyone" ON public.git_updates
     FOR SELECT USING (TRUE);
 
 -- 6. Queries Policy (Anyone can insert a contact query)
+DROP POLICY IF EXISTS "Anyone can submit a query" ON public.queries;
 CREATE POLICY "Anyone can submit a query" ON public.queries
     FOR INSERT WITH CHECK (TRUE);
 
 -- 7. Payments Policy (Users can only see their own transactions)
+DROP POLICY IF EXISTS "Users can view own payments" ON public.payments;
 CREATE POLICY "Users can view own payments" ON public.payments
     FOR SELECT USING (auth.uid() = user_id);
 
 -- 8. Paid Resources Policy (Students who paid for the course or previews can view)
+DROP POLICY IF EXISTS "Paid resources viewable by enrolled students" ON public.paid_resources;
 CREATE POLICY "Paid resources viewable by enrolled students" ON public.paid_resources
     FOR SELECT USING (
         is_preview = TRUE OR EXISTS (
@@ -212,3 +220,43 @@ CREATE POLICY "Paid resources viewable by enrolled students" ON public.paid_reso
               AND (payments.expires_at IS NULL OR payments.expires_at > NOW())
         )
     );
+
+
+-- ==============================================================================
+-- AUTO-ADMIN: Elevate known admin emails automatically at the database level
+-- ==============================================================================
+-- This trigger ensures that when a profile is created or updated for a known
+-- admin email, the role is automatically set to 'admin' — even on first login
+-- before the application-layer callback runs.
+
+-- 1. Backfill: Elevate any existing profiles that match known admin emails
+UPDATE public.profiles
+SET role = 'admin', updated_at = NOW()
+WHERE LOWER(TRIM(email)) IN (
+    'yashrajmoolchandani@gmail.com',
+    'yashrajmmolchandani@gmail.com',
+    'ankityadav.vicky@gmail.com'
+);
+
+-- 2. Trigger function: runs BEFORE INSERT or UPDATE on profiles
+CREATE OR REPLACE FUNCTION public.set_admin_role_for_known_emails()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF LOWER(TRIM(NEW.email)) IN (
+        'yashrajmoolchandani@gmail.com',
+        'yashrajmmolchandani@gmail.com',
+        'ankityadav.vicky@gmail.com'
+    ) THEN
+        NEW.role := 'admin';
+    END IF;
+    NEW.updated_at := NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- 3. Drop old trigger if exists, then create fresh
+DROP TRIGGER IF EXISTS trg_profiles_auto_admin ON public.profiles;
+CREATE TRIGGER trg_profiles_auto_admin
+    BEFORE INSERT OR UPDATE ON public.profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION public.set_admin_role_for_known_emails();

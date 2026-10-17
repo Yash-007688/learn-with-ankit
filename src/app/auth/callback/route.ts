@@ -55,6 +55,7 @@ export async function GET(request: Request) {
       const knownAdminEmails = [
         "yashrajmoolchandani@gmail.com",
         "yashrajmmolchandani@gmail.com",
+        "ankityadav.vicky@gmail.com",
       ];
       const isAdminEmail = knownAdminEmails.includes(userEmail);
 

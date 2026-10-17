@@ -216,7 +216,8 @@ export default function AdminPage() {
           const role = profile?.role;
           const isKnownAdmin =
             userEmail === "yashrajmoolchandani@gmail.com" ||
-            userEmail === "yashrajmmolchandani@gmail.com";
+            userEmail === "yashrajmmolchandani@gmail.com" ||
+            userEmail === "ankityadav.vicky@gmail.com";
 
           if (role === "admin" || role === "dev" || isKnownAdmin) {
             setIsAuthenticated(true);
@@ -253,7 +254,7 @@ export default function AdminPage() {
   const handleManualLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanUsername = username.trim().toLowerCase();
-    const validEmails = ["yashrajmmolchandani@gmail.com", "yashrajmoolchandani@gmail.com", "admin"];
+    const validEmails = ["yashrajmmolchandani@gmail.com", "yashrajmoolchandani@gmail.com", "ankityadav.vicky@gmail.com", "admin"];
 
     if (validEmails.includes(cleanUsername) && password === "admin") {
       setIsAuthenticated(true);

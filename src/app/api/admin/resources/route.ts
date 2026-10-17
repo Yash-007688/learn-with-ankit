@@ -23,6 +23,7 @@ async function getAdminDb() {
   const adminEmails = [
     "yashrajmoolchandani@gmail.com",
     "yashrajmmolchandani@gmail.com",
+    "ankityadav.vicky@gmail.com",
   ];
 
   let isAuthorized = false;
