@@ -582,52 +582,53 @@ export default function AdminPage() {
     <div className="min-h-screen bg-[#0a0500] text-stone-200">
       {/* Header Bar */}
       <header className="border-b border-amber-900/30 bg-stone-950/80 sticky top-0 z-40 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-9 h-9 rounded-full overflow-hidden bg-black relative border border-amber-500/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 min-h-[4rem] flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/" className="flex items-center gap-2 group shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden bg-black relative border border-amber-500/40 shrink-0">
                 <Image src="/ankit-sir.png" alt="Ankit Sir" fill className="object-cover object-top" />
               </div>
-              <span className="font-bold text-lg text-white">Learn with Ankit</span>
+              <span className="font-bold text-base sm:text-lg text-white">Learn with Ankit</span>
             </Link>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase">
+            <span className="hidden sm:inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase shrink-0">
               Admin & Dev Portal
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-stone-400 hidden sm:inline">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-xs text-stone-400 hidden lg:inline">
               Logged in as <strong className="text-white">{adminUser?.name || adminUser?.email || "Admin"}</strong>
             </span>
             <Link
               href="/"
               target="_blank"
-              className="text-xs font-medium px-3.5 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white transition-colors"
+              className="text-xs font-medium px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-stone-900 border border-stone-800 text-stone-300 hover:text-white transition-colors shrink-0"
             >
-              View Live Website ↗
+              <span className="hidden sm:inline">View Live Website</span>
+              <span className="sm:hidden">Live</span> ↗
             </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-red-950/40 border border-red-900/40 text-red-400 hover:bg-red-900/50 transition-colors cursor-pointer"
+              className="flex items-center gap-1 text-xs font-bold px-2.5 sm:px-3 py-1.5 rounded-lg bg-red-950/40 border border-red-900/40 text-red-400 hover:bg-red-900/50 transition-colors cursor-pointer shrink-0"
             >
               <LogOut className="w-3.5 h-3.5" />
-              Logout
+              <span>Logout</span>
             </button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section & Action Buttons */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight">Admin Operations Center</h1>
-            <p className="text-stone-400 text-sm mt-1">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Admin Operations Center</h1>
+            <p className="text-stone-400 text-xs sm:text-sm mt-1">
               Manage live courses (Free & Paid), upload chapter resources, and respond to student inquiries.
             </p>
           </div>
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-3 w-full sm:w-auto">
             <button
               onClick={() => {
                 if (courses.length === 0) {
@@ -640,17 +641,17 @@ export default function AdminPage() {
                 }));
                 setShowUploadModal(true);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 border border-amber-700/40 text-amber-300 font-semibold text-sm transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 border border-amber-700/40 text-amber-300 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
             >
-              <UploadCloud className="w-4 h-4 text-amber-400" />
-              Upload Resource
+              <UploadCloud className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="truncate">Upload Resource</span>
             </button>
             <button
               onClick={handleOpenAddCourse}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-105 transition-transform cursor-pointer"
+              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-105 transition-transform cursor-pointer"
             >
-              <Plus className="w-4 h-4" />
-              Create Course
+              <Plus className="w-4 h-4 shrink-0" />
+              <span className="truncate">Create Course</span>
             </button>
           </div>
         </div>
@@ -702,52 +703,52 @@ export default function AdminPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 border-b border-amber-900/30 mb-8 overflow-x-auto pb-1">
+        <div className="flex items-center gap-2 border-b border-amber-900/30 mb-8 overflow-x-auto pb-2 no-scrollbar">
           <button
             onClick={() => setActiveTab("courses")}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === "courses"
                 ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                 : "text-stone-400 hover:text-white hover:bg-stone-900/50"
             }`}
           >
-            <BookOpen className="w-4 h-4" />
+            <BookOpen className="w-4 h-4 shrink-0" />
             Courses Catalog ({courses.length})
           </button>
 
           <button
             onClick={() => setActiveTab("upload")}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === "upload"
                 ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                 : "text-stone-400 hover:text-white hover:bg-stone-900/50"
             }`}
           >
-            <UploadCloud className="w-4 h-4" />
+            <UploadCloud className="w-4 h-4 shrink-0" />
             Uploaded Resources ({totalResourcesCount})
           </button>
 
           <button
             onClick={() => setActiveTab("queries")}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === "queries"
                 ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                 : "text-stone-400 hover:text-white hover:bg-stone-900/50"
             }`}
           >
-            <MessageSquare className="w-4 h-4" />
+            <MessageSquare className="w-4 h-4 shrink-0" />
             Student Inquiries ({queries.length})
           </button>
 
           <button
             onClick={() => setActiveTab("profiles")}
-            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+            className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === "profiles"
                 ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                 : "text-stone-400 hover:text-white hover:bg-stone-900/50"
             }`}
           >
-            <Users className="w-4 h-4" />
+            <Users className="w-4 h-4 shrink-0" />
             Registered Profiles ({profiles.length})
           </button>
         </div>
@@ -755,11 +756,11 @@ export default function AdminPage() {
         {/* TAB 1: COURSES MANAGEMENT */}
         {activeTab === "courses" && (
           <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <h2 className="text-xl font-bold text-white tracking-tight">Active Courses Management</h2>
               <button
                 onClick={handleOpenAddCourse}
-                className="text-xs font-bold px-3 py-1.5 rounded-lg bg-amber-500 text-black hover:bg-amber-400 flex items-center gap-1.5"
+                className="text-xs font-bold px-3.5 py-2 rounded-lg bg-amber-500 text-black hover:bg-amber-400 flex items-center justify-center gap-1.5 self-start sm:self-auto cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" /> Add Course
               </button>
@@ -782,7 +783,7 @@ export default function AdminPage() {
             ) : (
               <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 overflow-hidden backdrop-blur-sm">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm text-stone-300">
+                  <table className="w-full min-w-[720px] text-left text-sm text-stone-300">
                     <thead className="bg-amber-950/40 text-stone-400 uppercase text-xs font-semibold tracking-wider border-b border-amber-900/30">
                       <tr>
                         <th className="px-6 py-4">Course Title & Code</th>
@@ -835,17 +836,17 @@ export default function AdminPage() {
                               </span>
                             </td>
                             <td className="px-6 py-4 text-right">
-                              <div className="flex items-center justify-end gap-2">
+                              <div className="flex items-center justify-end gap-2 shrink-0">
                                 <button
                                   onClick={() => handleOpenEditCourse(course)}
-                                  className="p-1.5 rounded-lg text-stone-400 hover:text-amber-400 hover:bg-amber-950/40 transition-colors"
+                                  className="p-2 rounded-lg text-stone-400 hover:text-amber-400 hover:bg-amber-950/40 transition-colors shrink-0 cursor-pointer"
                                   title="Edit course"
                                 >
                                   <Edit2 className="w-4 h-4" />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteCourse(course.id)}
-                                  className="p-1.5 rounded-lg text-stone-400 hover:text-red-400 hover:bg-red-950/40 transition-colors"
+                                  className="p-2 rounded-lg text-stone-400 hover:text-red-400 hover:bg-red-950/40 transition-colors shrink-0 cursor-pointer"
                                   title="Delete course"
                                 >
                                   <Trash2 className="w-4 h-4" />
@@ -866,7 +867,7 @@ export default function AdminPage() {
         {/* TAB 2: UPLOADED RESOURCES (FREE & PAID) */}
         {activeTab === "upload" && (
           <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h2 className="text-xl font-bold text-white tracking-tight">Upload & Curriculum Resources</h2>
                 <p className="text-xs text-stone-400 mt-0.5">
@@ -882,7 +883,7 @@ export default function AdminPage() {
                   }));
                   setShowUploadModal(true);
                 }}
-                className="text-xs font-bold px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black flex items-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+                className="text-xs font-bold px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(245,158,11,0.3)] self-start sm:self-auto shrink-0"
               >
                 <Plus className="w-4 h-4" /> Upload New Resource
               </button>
@@ -902,56 +903,58 @@ export default function AdminPage() {
                 </div>
               ) : (
                 <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 overflow-hidden">
-                  <table className="w-full text-left text-xs text-stone-300">
-                    <thead className="bg-amber-950/30 text-stone-400 uppercase text-[11px] font-semibold border-b border-amber-900/30">
-                      <tr>
-                        <th className="px-5 py-3">Resource Title</th>
-                        <th className="px-5 py-3">Belongs to Course</th>
-                        <th className="px-5 py-3">Type</th>
-                        <th className="px-5 py-3">Order</th>
-                        <th className="px-5 py-3">Free Preview?</th>
-                        <th className="px-5 py-3 text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-amber-900/20">
-                      {paidResources.map((res) => (
-                        <tr key={res.id} className="hover:bg-amber-900/10">
-                          <td className="px-5 py-3.5 font-semibold text-white">
-                            {res.title}
-                            {res.video_url && (
-                              <a href={res.video_url} target="_blank" rel="noreferrer" className="text-[10px] text-amber-400 flex items-center gap-1 mt-0.5 hover:underline">
-                                <ExternalLink className="w-2.5 h-2.5" /> Watch Video URL
-                              </a>
-                            )}
-                          </td>
-                          <td className="px-5 py-3.5">
-                            <span className="px-2 py-0.5 rounded-md bg-stone-900 border border-stone-800 text-stone-300 font-medium">
-                              {res.course_name}
-                            </span>
-                          </td>
-                          <td className="px-5 py-3.5 uppercase font-mono text-[10px] text-amber-400">
-                            {res.resource_type}
-                          </td>
-                          <td className="px-5 py-3.5 font-mono text-stone-400">Ch. #{res.chapter_order}</td>
-                          <td className="px-5 py-3.5">
-                            {res.is_preview ? (
-                              <span className="text-green-400 text-[10px] uppercase font-bold">Yes (Demo)</span>
-                            ) : (
-                              <span className="text-stone-500 text-[10px] uppercase">Locked</span>
-                            )}
-                          </td>
-                          <td className="px-5 py-3.5 text-right">
-                            <button
-                              onClick={() => handleDeleteResource(res.id, "paid")}
-                              className="p-1 rounded text-stone-500 hover:text-red-400 transition-colors"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[650px] text-left text-xs text-stone-300">
+                      <thead className="bg-amber-950/30 text-stone-400 uppercase text-[11px] font-semibold border-b border-amber-900/30">
+                        <tr>
+                          <th className="px-5 py-3">Resource Title</th>
+                          <th className="px-5 py-3">Belongs to Course</th>
+                          <th className="px-5 py-3">Type</th>
+                          <th className="px-5 py-3">Order</th>
+                          <th className="px-5 py-3">Free Preview?</th>
+                          <th className="px-5 py-3 text-right">Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-amber-900/20">
+                        {paidResources.map((res) => (
+                          <tr key={res.id} className="hover:bg-amber-900/10">
+                            <td className="px-5 py-3.5 font-semibold text-white">
+                              {res.title}
+                              {res.video_url && (
+                                <a href={res.video_url} target="_blank" rel="noreferrer" className="text-[10px] text-amber-400 flex items-center gap-1 mt-0.5 hover:underline">
+                                  <ExternalLink className="w-2.5 h-2.5" /> Watch Video URL
+                                </a>
+                              )}
+                            </td>
+                            <td className="px-5 py-3.5">
+                              <span className="px-2 py-0.5 rounded-md bg-stone-900 border border-stone-800 text-stone-300 font-medium">
+                                {res.course_name}
+                              </span>
+                            </td>
+                            <td className="px-5 py-3.5 uppercase font-mono text-[10px] text-amber-400">
+                              {res.resource_type}
+                            </td>
+                            <td className="px-5 py-3.5 font-mono text-stone-400">Ch. #{res.chapter_order}</td>
+                            <td className="px-5 py-3.5">
+                              {res.is_preview ? (
+                                <span className="text-green-400 text-[10px] uppercase font-bold">Yes (Demo)</span>
+                              ) : (
+                                <span className="text-stone-500 text-[10px] uppercase">Locked</span>
+                              )}
+                            </td>
+                            <td className="px-5 py-3.5 text-right">
+                              <button
+                                onClick={() => handleDeleteResource(res.id, "paid")}
+                                className="p-1.5 rounded-lg text-stone-500 hover:text-red-400 hover:bg-red-950/30 transition-colors cursor-pointer shrink-0"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </div>
@@ -970,46 +973,48 @@ export default function AdminPage() {
                 </div>
               ) : (
                 <div className="rounded-2xl border border-amber-900/30 bg-stone-950/60 overflow-hidden">
-                  <table className="w-full text-left text-xs text-stone-300">
-                    <thead className="bg-amber-950/30 text-stone-400 uppercase text-[11px] font-semibold border-b border-amber-900/30">
-                      <tr>
-                        <th className="px-5 py-3">Resource Title</th>
-                        <th className="px-5 py-3">Category</th>
-                        <th className="px-5 py-3">Target Class</th>
-                        <th className="px-5 py-3">File Size</th>
-                        <th className="px-5 py-3">Status</th>
-                        <th className="px-5 py-3 text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-amber-900/20">
-                      {freeResources.map((res) => (
-                        <tr key={res.id} className="hover:bg-amber-900/10">
-                          <td className="px-5 py-3.5 font-semibold text-white">
-                            {res.title}
-                            <a href={res.file_url} target="_blank" rel="noreferrer" className="text-[10px] text-amber-400 flex items-center gap-1 mt-0.5 hover:underline">
-                              <ExternalLink className="w-2.5 h-2.5" /> File Link
-                            </a>
-                          </td>
-                          <td className="px-5 py-3.5 text-stone-300">{res.category}</td>
-                          <td className="px-5 py-3.5 text-stone-400">{res.target_class}</td>
-                          <td className="px-5 py-3.5 font-mono text-stone-500">{res.file_size || "1.5 MB"}</td>
-                          <td className="px-5 py-3.5">
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-green-950/50 text-green-400 border border-green-800/40">
-                              Published
-                            </span>
-                          </td>
-                          <td className="px-5 py-3.5 text-right">
-                            <button
-                              onClick={() => handleDeleteResource(res.id, "free")}
-                              className="p-1 rounded text-stone-500 hover:text-red-400 transition-colors"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[650px] text-left text-xs text-stone-300">
+                      <thead className="bg-amber-950/30 text-stone-400 uppercase text-[11px] font-semibold border-b border-amber-900/30">
+                        <tr>
+                          <th className="px-5 py-3">Resource Title</th>
+                          <th className="px-5 py-3">Category</th>
+                          <th className="px-5 py-3">Target Class</th>
+                          <th className="px-5 py-3">File Size</th>
+                          <th className="px-5 py-3">Status</th>
+                          <th className="px-5 py-3 text-right">Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-amber-900/20">
+                        {freeResources.map((res) => (
+                          <tr key={res.id} className="hover:bg-amber-900/10">
+                            <td className="px-5 py-3.5 font-semibold text-white">
+                              {res.title}
+                              <a href={res.file_url} target="_blank" rel="noreferrer" className="text-[10px] text-amber-400 flex items-center gap-1 mt-0.5 hover:underline">
+                                <ExternalLink className="w-2.5 h-2.5" /> File Link
+                              </a>
+                            </td>
+                            <td className="px-5 py-3.5 text-stone-300">{res.category}</td>
+                            <td className="px-5 py-3.5 text-stone-400">{res.target_class}</td>
+                            <td className="px-5 py-3.5 font-mono text-stone-500">{res.file_size || "1.5 MB"}</td>
+                            <td className="px-5 py-3.5">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-green-950/50 text-green-400 border border-green-800/40">
+                                Published
+                              </span>
+                            </td>
+                            <td className="px-5 py-3.5 text-right">
+                              <button
+                                onClick={() => handleDeleteResource(res.id, "free")}
+                                className="p-1.5 rounded-lg text-stone-500 hover:text-red-400 hover:bg-red-950/30 transition-colors cursor-pointer shrink-0"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </div>
@@ -1019,14 +1024,14 @@ export default function AdminPage() {
         {/* TAB 3: STUDENT INQUIRIES */}
         {activeTab === "queries" && (
           <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
                 <h2 className="text-xl font-bold text-white tracking-tight">Student Inquiries & Leads</h2>
                 <p className="text-xs text-stone-400 mt-0.5">
                   Direct messages submitted by students from the website contact form.
                 </p>
               </div>
-              <span className="text-xs text-stone-400">{queries.length} total messages</span>
+              <span className="text-xs text-stone-400 self-start sm:self-auto">{queries.length} total messages</span>
             </div>
 
             {queries.length === 0 ? (
@@ -1036,9 +1041,9 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-4">
                 {queries.map((q) => (
-                  <div key={q.id} className="p-5 rounded-2xl bg-amber-950/15 border border-amber-900/30 space-y-3">
+                  <div key={q.id} className="p-4 sm:p-5 rounded-2xl bg-amber-950/15 border border-amber-900/30 space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="font-bold text-white text-sm">{q.name}</span>
                         <span className="px-2 py-0.5 rounded-full text-[10px] uppercase font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
                           {q.subject}
@@ -1056,7 +1061,7 @@ export default function AdminPage() {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-between sm:justify-end gap-2">
                         <span className="text-[11px] text-stone-500 flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {new Date(q.created_at).toLocaleDateString("en-IN", {
@@ -1069,7 +1074,7 @@ export default function AdminPage() {
                         </span>
                         <button
                           onClick={() => handleDeleteQuery(q.id)}
-                          className="p-1 rounded text-stone-500 hover:text-red-400 transition-colors ml-2"
+                          className="p-1.5 rounded-lg text-stone-500 hover:text-red-400 hover:bg-red-950/30 transition-colors ml-2 cursor-pointer shrink-0"
                           title="Delete message"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -1077,25 +1082,25 @@ export default function AdminPage() {
                       </div>
                     </div>
 
-                    <p className="text-xs text-stone-300 bg-stone-900/70 p-3 rounded-xl border border-amber-900/20 leading-relaxed">
+                    <p className="text-xs text-stone-300 bg-stone-900/70 p-3 rounded-xl border border-amber-900/20 leading-relaxed break-words">
                       {q.message}
                     </p>
 
-                    <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-amber-900/20">
-                      <div className="flex flex-wrap gap-4 text-xs">
-                        <a href={`mailto:${q.email}`} className="flex items-center gap-1.5 text-amber-300 hover:underline">
-                          <Mail className="w-3.5 h-3.5" /> {q.email}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-amber-900/20">
+                      <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs">
+                        <a href={`mailto:${q.email}`} className="flex items-center gap-1.5 text-amber-300 hover:underline break-all">
+                          <Mail className="w-3.5 h-3.5 shrink-0" /> {q.email}
                         </a>
                         <a href={`tel:${q.phone_number}`} className="flex items-center gap-1.5 text-stone-300 hover:text-white">
-                          <Phone className="w-3.5 h-3.5" /> {q.phone_number}
+                          <Phone className="w-3.5 h-3.5 shrink-0" /> {q.phone_number}
                         </a>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
                         {q.status !== "contacted" && (
                           <button
                             onClick={() => handleUpdateQueryStatus(q.id, "contacted")}
-                            className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-yellow-950/40 text-yellow-400 border border-yellow-800/30 hover:bg-yellow-900/50"
+                            className="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-yellow-950/40 text-yellow-400 border border-yellow-800/30 hover:bg-yellow-900/50 cursor-pointer"
                           >
                             Mark Contacted
                           </button>
@@ -1103,7 +1108,7 @@ export default function AdminPage() {
                         {q.status !== "resolved" && (
                           <button
                             onClick={() => handleUpdateQueryStatus(q.id, "resolved")}
-                            className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-green-950/40 text-green-400 border border-green-800/30 hover:bg-green-900/50"
+                            className="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-green-950/40 text-green-400 border border-green-800/30 hover:bg-green-900/50 cursor-pointer"
                           >
                             Mark Resolved
                           </button>
@@ -1120,12 +1125,12 @@ export default function AdminPage() {
         {/* TAB 4: REGISTERED PROFILES */}
         {activeTab === "profiles" && (
           <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
                 <h2 className="text-xl font-bold text-white tracking-tight">Registered Profiles & Users</h2>
                 <p className="text-xs text-stone-400 mt-0.5">Live user accounts created through Google OAuth or signup.</p>
               </div>
-              <span className="text-xs text-stone-400">{profiles.length} total users</span>
+              <span className="text-xs text-stone-400 self-start sm:self-auto">{profiles.length} total users</span>
             </div>
 
             {profiles.length === 0 ? (
@@ -1176,15 +1181,15 @@ export default function AdminPage() {
 
       {/* MODAL 1: ADD / EDIT COURSE */}
       {showCourseModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-lg bg-stone-950 border border-amber-900/40 rounded-3xl p-6 shadow-2xl my-8 relative"
+            className="w-full max-w-lg bg-stone-950 border border-amber-900/40 rounded-3xl p-5 sm:p-6 shadow-2xl my-8 relative"
           >
             <button
               onClick={() => setShowCourseModal(false)}
-              className="absolute right-5 top-5 p-1 rounded-lg text-stone-400 hover:text-white"
+              className="absolute right-4 top-4 p-1 rounded-lg text-stone-400 hover:text-white cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1238,12 +1243,12 @@ export default function AdminPage() {
 
               {/* Course Type: Free or Paid Toggle */}
               <div className="p-3.5 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                   <div>
                     <span className="text-xs font-bold text-white uppercase block">Course Pricing Type</span>
                     <span className="text-[11px] text-stone-400">Choose whether this course is completely Free or Paid</span>
                   </div>
-                  <div className="flex items-center gap-1 bg-stone-900 p-1 rounded-xl border border-stone-800">
+                  <div className="flex items-center gap-1 bg-stone-900 p-1 rounded-xl border border-stone-800 self-start sm:self-auto shrink-0">
                     <button
                       type="button"
                       onClick={() => setCourseForm({ ...courseForm, is_free: true, price: "0" })}
@@ -1326,9 +1331,9 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div className="flex items-center justify-between pt-2">
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-stone-300 font-semibold">Publish Status:</label>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-amber-900/30">
+                <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
+                  <label className="text-xs text-stone-300 font-semibold whitespace-nowrap">Publish Status:</label>
                   <select
                     value={courseForm.status}
                     onChange={(e) => setCourseForm({ ...courseForm, status: e.target.value as "active" | "draft" })}
@@ -1339,18 +1344,18 @@ export default function AdminPage() {
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => setShowCourseModal(false)}
-                    className="px-4 py-2 rounded-xl text-stone-400 hover:text-white text-xs font-semibold"
+                    className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-stone-400 hover:text-white border border-stone-800 sm:border-0 text-xs font-semibold text-center cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs cursor-pointer shadow-lg disabled:opacity-50"
+                    className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs cursor-pointer shadow-lg disabled:opacity-50 text-center"
                   >
                     {actionLoading ? "Saving..." : editingCourseId ? "Update Course" : "Save Course"}
                   </button>
@@ -1363,15 +1368,15 @@ export default function AdminPage() {
 
       {/* MODAL 2: UPLOAD RESOURCE (FREE OR PAID WITH COURSE DROPDOWN) */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-lg bg-stone-950 border border-amber-900/40 rounded-3xl p-6 shadow-2xl my-8 relative"
+            className="w-full max-w-lg bg-stone-950 border border-amber-900/40 rounded-3xl p-5 sm:p-6 shadow-2xl my-8 relative"
           >
             <button
               onClick={() => setShowUploadModal(false)}
-              className="absolute right-5 top-5 p-1 rounded-lg text-stone-400 hover:text-white"
+              className="absolute right-4 top-4 p-1 rounded-lg text-stone-400 hover:text-white cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1382,26 +1387,26 @@ export default function AdminPage() {
             </p>
 
             {/* Toggle Free vs Paid Upload */}
-            <div className="flex p-1 bg-stone-900 rounded-xl border border-stone-800 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 p-1.5 bg-stone-900 rounded-xl border border-stone-800 mb-5">
               <button
                 type="button"
                 onClick={() => setUploadType("paid")}
-                className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                   uploadType === "paid" ? "bg-amber-500 text-black shadow" : "text-stone-400 hover:text-white"
                 }`}
               >
-                <Video className="w-3.5 h-3.5" />
-                Paid Course Content (Attach to Course)
+                <Video className="w-3.5 h-3.5 shrink-0" />
+                <span>Paid Course Content</span>
               </button>
               <button
                 type="button"
                 onClick={() => setUploadType("free")}
-                className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                   uploadType === "free" ? "bg-green-500 text-black shadow" : "text-stone-400 hover:text-white"
                 }`}
               >
-                <FileText className="w-3.5 h-3.5" />
-                Free Public Download
+                <FileText className="w-3.5 h-3.5 shrink-0" />
+                <span>Free Public Download</span>
               </button>
             </div>
 
@@ -1521,13 +1526,13 @@ export default function AdminPage() {
                     />
 
                     {uploadForm.paid_file_url && (
-                      <div className="flex items-center justify-between text-[11px] text-stone-400 pt-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-stone-400 pt-1">
                         <span>Make sure sharing is set to: &quot;Anyone with link can view&quot;</span>
                         <a
                           href={uploadForm.paid_file_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-amber-400 hover:underline flex items-center gap-1 font-semibold"
+                          className="text-amber-400 hover:underline flex items-center gap-1 font-semibold self-start sm:self-auto"
                         >
                           Test Link <ExternalLink className="w-3 h-3" />
                         </a>
@@ -1608,13 +1613,13 @@ export default function AdminPage() {
                     />
 
                     {uploadForm.file_url && (
-                      <div className="flex items-center justify-between text-[11px] text-stone-400 pt-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-stone-400 pt-1">
                         <span>Ensure Google Drive link access is &quot;Anyone with the link can view&quot;</span>
                         <a
                           href={uploadForm.file_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-amber-400 hover:underline flex items-center gap-1 font-semibold"
+                          className="text-amber-400 hover:underline flex items-center gap-1 font-semibold self-start sm:self-auto"
                         >
                           Test Link <ExternalLink className="w-3 h-3" />
                         </a>
@@ -1635,18 +1640,18 @@ export default function AdminPage() {
                 </>
               )}
 
-              <div className="flex items-center justify-end gap-2 pt-3">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-amber-900/30">
                 <button
                   type="button"
                   onClick={() => setShowUploadModal(false)}
-                  className="px-4 py-2 rounded-xl text-stone-400 hover:text-white text-xs font-semibold"
+                  className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-stone-400 hover:text-white border border-stone-800 sm:border-0 text-xs font-semibold text-center cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs cursor-pointer shadow-lg disabled:opacity-50"
+                  className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs cursor-pointer shadow-lg disabled:opacity-50 text-center"
                 >
                   {actionLoading ? "Uploading..." : "Publish Resource"}
                 </button>

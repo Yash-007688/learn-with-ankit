@@ -144,7 +144,7 @@ export default function FreeResourcesPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500 hover:text-white"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500 hover:text-white p-1"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -152,12 +152,12 @@ export default function FreeResourcesPage() {
           </div>
 
           {/* Class Filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto">
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
             {classFilters.map((cls) => (
               <button
                 key={cls}
                 onClick={() => setSelectedClass(cls)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                   selectedClass === cls
                     ? "bg-amber-500 text-black font-bold shadow-[0_0_12px_rgba(245,158,11,0.3)]"
                     : "bg-stone-900/80 text-stone-400 hover:text-white border border-amber-900/20"
@@ -169,15 +169,15 @@ export default function FreeResourcesPage() {
           </div>
 
           {/* Category Dropdown/Pills for Mobile & Desktop */}
-          <div className="flex items-center gap-1 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                   selectedCategory === cat
                     ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                    : "text-stone-400 hover:text-white"
+                    : "text-stone-400 hover:text-white bg-stone-900/40 border border-transparent"
                 }`}
               >
                 {cat}
@@ -198,7 +198,7 @@ export default function FreeResourcesPage() {
                 setSelectedClass("All");
                 setSelectedCategory("All");
               }}
-              className="text-xs text-amber-400 hover:underline"
+              className="text-xs text-amber-400 hover:underline cursor-pointer"
             >
               Reset Filters
             </button>
@@ -218,7 +218,7 @@ export default function FreeResourcesPage() {
               <motion.div
                 key={res.id}
                 whileHover={{ y: -5 }}
-                className="rounded-3xl bg-stone-950/80 border border-amber-900/30 p-6 flex flex-col justify-between backdrop-blur-xl hover:border-amber-500/60 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group relative overflow-hidden"
+                className="rounded-3xl bg-stone-950/80 border border-amber-900/30 p-4 sm:p-6 flex flex-col justify-between backdrop-blur-xl hover:border-amber-500/60 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-amber-600/5 rounded-full blur-2xl group-hover:bg-amber-600/15 transition-all" />
 
@@ -229,7 +229,7 @@ export default function FreeResourcesPage() {
                       {res.category}
                     </span>
                     <span className="text-xs text-stone-400 font-medium flex items-center gap-1">
-                      <GraduationCap className="w-3.5 h-3.5 text-stone-500" />
+                      <GraduationCap className="w-3.5 h-3.5 text-stone-500 shrink-0" />
                       {res.target_class}
                     </span>
                   </div>
@@ -251,16 +251,16 @@ export default function FreeResourcesPage() {
                 </div>
 
                 {/* Download Button */}
-                <div className="pt-4 border-t border-amber-900/20 mt-4 flex items-center justify-between">
+                <div className="pt-4 border-t border-amber-900/20 mt-4 flex items-center justify-between gap-2">
                   <span className="text-[11px] text-stone-500 font-mono">Instant Access</span>
                   <a
                     href={res.file_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-extrabold text-xs hover:from-amber-400 hover:to-orange-400 transition-all shadow-[0_0_12px_rgba(245,158,11,0.25)]"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-extrabold text-xs hover:from-amber-400 hover:to-orange-400 transition-all shadow-[0_0_12px_rgba(245,158,11,0.25)] shrink-0"
                   >
-                    <DownloadCloud className="w-3.5 h-3.5" />
-                    Download File
+                    <DownloadCloud className="w-3.5 h-3.5 shrink-0" />
+                    <span>Download File</span>
                   </a>
                 </div>
               </motion.div>
@@ -268,7 +268,7 @@ export default function FreeResourcesPage() {
           </div>
         ) : (
           /* Clean Empty State */
-          <div className="max-w-xl mx-auto text-center py-16 p-8 rounded-3xl bg-stone-950/60 border border-amber-900/30">
+          <div className="max-w-xl mx-auto text-center py-16 p-6 sm:p-8 rounded-3xl bg-stone-950/60 border border-amber-900/30">
             <div className="w-16 h-16 rounded-2xl bg-amber-950/40 border border-amber-800/40 flex items-center justify-center text-amber-400 mx-auto mb-4">
               <FileText className="w-8 h-8" />
             </div>
@@ -276,22 +276,22 @@ export default function FreeResourcesPage() {
             <p className="text-xs text-stone-400 max-w-sm mx-auto mb-6 leading-relaxed">
               We couldn&apos;t find materials matching your current search. You can reset filters or request Ankit Sir to upload a specific chapter&apos;s formula sheet!
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xs sm:max-w-none mx-auto">
               <button
                 onClick={() => {
                   setSearchQuery("");
                   setSelectedClass("All");
                   setSelectedCategory("All");
                 }}
-                className="px-4 py-2 rounded-xl bg-stone-900 border border-amber-800/40 text-stone-300 font-semibold text-xs"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-stone-900 border border-amber-800/40 text-stone-300 font-semibold text-xs text-center cursor-pointer"
               >
                 Clear Filters
               </button>
               <Link
                 href="/#contact"
-                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold text-xs text-center"
               >
-                <MessageSquare className="w-3.5 h-3.5" /> Request a Topic PDF
+                <MessageSquare className="w-3.5 h-3.5 shrink-0" /> Request a Topic PDF
               </Link>
             </div>
           </div>

@@ -152,12 +152,12 @@ export default function CoursesPage() {
           </div>
 
           {/* Class Filter Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
             {classFilters.map((cls) => (
               <button
                 key={cls}
                 onClick={() => setSelectedClass(cls)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                   selectedClass === cls
                     ? "bg-amber-500 text-black font-bold shadow-[0_0_15px_rgba(245,158,11,0.3)]"
                     : "bg-stone-900/80 text-stone-400 hover:text-white border border-amber-900/20"
