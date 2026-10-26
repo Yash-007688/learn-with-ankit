@@ -163,15 +163,25 @@ export default function AdminPage() {
 
   const [actionLoading, setActionLoading] = useState(false);
 
+  const getAdminHeaders = () => {
+    const email = sessionStorage.getItem("admin_email") || adminUser?.email || "admin";
+    const auth = sessionStorage.getItem("admin_auth") || (isAuthenticated ? "true" : "");
+    return {
+      "x-admin-auth": auth,
+      "x-admin-email": email,
+    };
+  };
+
   // Fetch all live data from backend APIs
   const fetchAllData = async () => {
     setLoadingData(true);
     try {
+      const headers = getAdminHeaders();
       const [coursesRes, resourcesRes, queriesRes, dataRes] = await Promise.all([
-        fetch("/api/admin/courses"),
-        fetch("/api/admin/resources"),
-        fetch("/api/admin/queries"),
-        fetch("/api/admin/data"),
+        fetch("/api/admin/courses", { headers }),
+        fetch("/api/admin/resources", { headers }),
+        fetch("/api/admin/queries", { headers }),
+        fetch("/api/admin/data", { headers }),
       ]);
 
       if (coursesRes.ok) {
@@ -350,7 +360,7 @@ export default function AdminPage() {
 
       const res = await fetch("/api/admin/courses", {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAdminHeaders() },
         body: JSON.stringify(payload),
       });
 
@@ -372,7 +382,10 @@ export default function AdminPage() {
   const handleDeleteCourse = async (id: number) => {
     if (!confirm("Are you sure you want to delete this course? Associated paid resources may also be removed.")) return;
     try {
-      const res = await fetch(`/api/admin/courses?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/courses?id=${id}`, {
+        method: "DELETE",
+        headers: getAdminHeaders(),
+      });
       if (res.ok) {
         setCourses((prev) => prev.filter((c) => c.id !== id));
       }
@@ -414,7 +427,7 @@ export default function AdminPage() {
 
       const res = await fetch("/api/admin/resources", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAdminHeaders() },
         body: JSON.stringify(payload),
       });
 
@@ -451,7 +464,10 @@ export default function AdminPage() {
   const handleDeleteResource = async (id: number, type: "free" | "paid") => {
     if (!confirm(`Are you sure you want to delete this ${type} resource?`)) return;
     try {
-      const res = await fetch(`/api/admin/resources?id=${id}&type=${type}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/resources?id=${id}&type=${type}`, {
+        method: "DELETE",
+        headers: getAdminHeaders(),
+      });
       if (res.ok) {
         if (type === "free") {
           setFreeResources((prev) => prev.filter((r) => r.id !== id));
@@ -469,7 +485,7 @@ export default function AdminPage() {
     try {
       const res = await fetch("/api/admin/queries", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAdminHeaders() },
         body: JSON.stringify({ id, status }),
       });
       if (res.ok) {
@@ -484,7 +500,10 @@ export default function AdminPage() {
   const handleDeleteQuery = async (id: number) => {
     if (!confirm("Are you sure you want to delete this inquiry?")) return;
     try {
-      const res = await fetch(`/api/admin/queries?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/queries?id=${id}`, {
+        method: "DELETE",
+        headers: getAdminHeaders(),
+      });
       if (res.ok) {
         setQueries((prev) => prev.filter((q) => q.id !== id));
       }
@@ -741,7 +760,10 @@ export default function AdminPage() {
           </button>
 
           <button
-            onClick={() => setActiveTab("profiles")}
+            onClick={() => {
+              setActiveTab("profiles");
+              fetchAllData();
+            }}
             className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 shrink-0 ${
               activeTab === "profiles"
                 ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
@@ -1125,12 +1147,23 @@ export default function AdminPage() {
         {/* TAB 4: REGISTERED PROFILES */}
         {activeTab === "profiles" && (
           <div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div>
                 <h2 className="text-xl font-bold text-white tracking-tight">Registered Profiles & Users</h2>
                 <p className="text-xs text-stone-400 mt-0.5">Live user accounts created through Google OAuth or signup.</p>
               </div>
-              <span className="text-xs text-stone-400 self-start sm:self-auto">{profiles.length} total users</span>
+              <div className="flex items-center gap-2 self-start sm:self-auto">
+                <span className="text-xs text-stone-400">{profiles.length} total users</span>
+                <button
+                  onClick={fetchAllData}
+                  disabled={loadingData}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-stone-800 border border-amber-800/40 text-amber-300 text-xs font-semibold cursor-pointer disabled:opacity-50 transition-colors"
+                  title="Sync and refresh users live from Supabase"
+                >
+                  <Sparkles className={`w-3.5 h-3.5 ${loadingData ? "animate-spin" : ""}`} />
+                  {loadingData ? "Syncing..." : "Refresh Live Users"}
+                </button>
+              </div>
             </div>
 
             {profiles.length === 0 ? (

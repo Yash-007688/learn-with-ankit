@@ -53,7 +53,7 @@ export async function signupWithPassword(
       ? emailOrUsername.trim()
       : `${emailOrUsername.trim().toLowerCase()}@learnwithankit.com`;
 
-    const { error } = await supabase.auth.signUp({
+    const { data: authData, error } = await supabase.auth.signUp({
       email: formattedEmail,
       password: password,
       options: {
@@ -65,6 +65,20 @@ export async function signupWithPassword(
 
     if (error) {
       return { success: false, error: error.message };
+    }
+
+    if (authData?.user) {
+      try {
+        await supabase.from("profiles").upsert({
+          id: authData.user.id,
+          email: formattedEmail,
+          full_name: fullName,
+          role: "student",
+          class: "Class 11",
+        });
+      } catch (pErr) {
+        console.error("Profile creation error on signup:", pErr);
+      }
     }
 
     return { success: true };
