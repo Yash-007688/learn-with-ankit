@@ -15,6 +15,7 @@ type FooterProps = {
 function formatGitHubDate(date: string) {
   const day = date.slice(0, 10);
   return new Intl.DateTimeFormat("en-IN", {
+    weekday: "long",
     day: "numeric",
     month: "short",
     year: "numeric",

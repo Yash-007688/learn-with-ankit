@@ -65,7 +65,7 @@ async function fetchLatestGitHubCommit(): Promise<SiteUpdate | null> {
       github_change_no: sha.slice(0, 7),
       github_change_date,
       github_change_time,
-      updated_by: "amitshrivastva@buildingvoid.com",
+      updated_by: "harshverma@buildingvoid.com",
       commit_message: message,
     };
   } catch {
