@@ -56,6 +56,14 @@ export function getWhatsAppUrl(customMessage?: string): string {
 }
 
 /**
+ * Returns Telegram chat link
+ */
+export function getTelegramUrl(): string {
+  const raw = getAnkitSirPhone().replace(/\+/g, "").replace(/\s+/g, "");
+  return `https://t.me/+${raw}`;
+}
+
+/**
  * Returns tel: call link
  */
 export function getTelUrl(): string {

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Clock3, GitCommitHorizontal } from "lucide-react";
 import { useAuth } from "@/lib/auth/useAuth";
 import { DEFAULT_SITE_UPDATE, type SiteUpdate } from "@/lib/site-update";
-import { getWhatsAppUrl, getTelUrl } from "@/lib/contact";
+import { getWhatsAppUrl, getTelUrl, getTelegramUrl } from "@/lib/contact";
 
 type FooterProps = {
   showSiteUpdate?: boolean;
@@ -90,6 +90,13 @@ export default function Footer({ showSiteUpdate = false }: FooterProps) {
       icon: <i className="fa-solid fa-inbox text-lg" style={{ color: "#ffd43b" }} />,
       label: "Email",
       color: "hover:bg-amber-500/10 hover:border-amber-500/50",
+    },
+    {
+      name: "Telegram",
+      href: getTelegramUrl(),
+      icon: <i className="fa-brands fa-telegram text-lg" style={{ color: "#ffd43b" }} />,
+      label: "Telegram",
+      color: "hover:bg-sky-500/10 hover:border-sky-500/50",
     },
   ];
 
