@@ -28,6 +28,7 @@ function formatGitHubTime(time: string) {
   return new Intl.DateTimeFormat("en-IN", {
     hour: "numeric",
     minute: "2-digit",
+    second: "2-digit",
     hour12: true,
     timeZone: "UTC",
   }).format(new Date(`1970-01-01T${normalized}Z`));
