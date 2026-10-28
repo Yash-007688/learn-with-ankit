@@ -145,13 +145,13 @@ export default function Footer({ showSiteUpdate = false }: FooterProps) {
           )}
         </motion.div>
 
-        {/* Social Links */}
+        {/* Social Icons — vertical, icon only */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-4 mb-16"
+          className="flex flex-col items-center gap-2 mb-8"
         >
           {socialLinks.map((s) => (
             <Link
@@ -159,13 +159,20 @@ export default function Footer({ showSiteUpdate = false }: FooterProps) {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl border border-amber-900/30 bg-amber-900/10 text-stone-400 text-sm font-medium transition-all duration-300 ${s.color}`}
+              title={s.label}
+              className={`flex items-center justify-center w-9 h-9 rounded-xl border border-amber-900/30 bg-amber-900/10 text-stone-400 transition-all duration-300 ${s.color}`}
             >
-              {s.icon}
-              <span>{s.label}</span>
+              <span className="w-4 h-4 [&>svg]:w-4 [&>svg]:h-4">{s.icon}</span>
             </Link>
           ))}
         </motion.div>
+
+        {/* Page Links under icons */}
+        <div className="flex flex-wrap justify-center gap-5 mb-12 text-sm text-stone-500">
+          <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-amber-400 transition-colors">Terms & Conditions</Link>
+          <Link href="/#contact" className="hover:text-amber-400 transition-colors">Contact</Link>
+        </div>
 
         {/* Divider */}
         <div className="border-t border-amber-900/20 pt-8">
@@ -203,16 +210,9 @@ export default function Footer({ showSiteUpdate = false }: FooterProps) {
           )}
 
           {/* Bottom row */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-stone-500 text-sm">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-stone-600" />
-              <span>© 2026 Building_void. All rights reserved.</span>
-            </div>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-amber-400 transition-colors">Terms & Conditions</Link>
-              <Link href="/#contact" className="hover:text-amber-400 transition-colors">Contact</Link>
-            </div>
+          <div className="flex justify-center items-center gap-2 text-stone-500 text-sm">
+            <Sparkles className="w-4 h-4 text-stone-600" />
+            <span>© 2026 Building_void. All rights reserved.</span>
           </div>
 
           {/* Managed and Powered by */}
