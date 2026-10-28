@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, MessageCircle, X } from "lucide-react";
+import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getWhatsAppUrl, getTelUrl } from "@/lib/contact";
 
@@ -27,7 +27,7 @@ export default function QuickContactFloating() {
               title="WhatsApp Ankit Sir"
               className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-950/60 hover:bg-green-900/80 border border-green-700/50 text-green-300 hover:text-white transition-all shadow-[0_0_15px_rgba(34,197,94,0.25)]"
             >
-              <MessageCircle className="w-5 h-5 text-green-400 shrink-0" />
+              <i className="fa-brands fa-whatsapp text-xl" style={{ color: "#ffd43b" }} />
             </a>
 
             {/* Call Me Link */}
@@ -36,7 +36,7 @@ export default function QuickContactFloating() {
               title="Call Ankit Sir"
               className="flex items-center justify-center w-10 h-10 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 border border-amber-700/50 text-amber-300 hover:text-white transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)]"
             >
-              <Phone className="w-5 h-5 text-amber-400 shrink-0" />
+              <i className="fa-solid fa-phone text-xl" style={{ color: "#ffd43b" }} />
             </a>
           </motion.div>
         )}
@@ -62,7 +62,7 @@ export default function QuickContactFloating() {
           {isOpen ? (
             <X className="w-5 h-5 text-stone-300" />
           ) : (
-            <MessageCircle className="w-6 h-6 text-black fill-current" />
+            <i className="fa-brands fa-whatsapp text-xl" style={{ color: "#000" }} />
           )}
         </button>
       </div>

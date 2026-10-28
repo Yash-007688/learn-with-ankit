@@ -31,6 +31,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+      </head>
       <body className={`${inter.className} bg-[#0a0500] text-slate-50 min-h-screen flex flex-col selection:bg-amber-500/30`}>
         <Navbar />
         <main className="flex-1 relative">
