@@ -92,6 +92,18 @@ export default function Footer({ showSiteUpdate = false }: FooterProps) {
       label: "Instagram",
       color: "hover:text-pink-400 hover:border-pink-500/50 hover:bg-pink-500/10",
     },
+    {
+      name: "Email",
+      href: "mailto:ankityadav.vicky@gmail.com",
+      icon: (
+        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+          <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.453a2.999 2.999 0 01-3.144 0L1.5 8.67z"/>
+          <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+        </svg>
+      ),
+      label: "✉️ Email",
+      color: "hover:text-amber-400 hover:border-amber-500/50 hover:bg-amber-500/10",
+    },
   ];
 
   return (
