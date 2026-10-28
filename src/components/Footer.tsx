@@ -159,10 +159,10 @@ export default function Footer({ showSiteUpdate = false }: FooterProps) {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl border border-amber-900/30 bg-amber-900/10 text-stone-400 text-sm font-medium transition-all duration-300 ${s.color}`}
+              title={s.label}
+              className={`flex items-center justify-center p-3 rounded-2xl border border-amber-900/30 bg-amber-900/10 text-stone-400 transition-all duration-300 ${s.color}`}
             >
               {s.icon}
-              <span>{s.label}</span>
             </Link>
           ))}
         </motion.div>

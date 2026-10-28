@@ -24,19 +24,19 @@ export default function QuickContactFloating() {
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-green-950/60 hover:bg-green-900/80 border border-green-700/50 text-green-300 hover:text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(34,197,94,0.25)]"
+              title="WhatsApp Ankit Sir"
+              className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-950/60 hover:bg-green-900/80 border border-green-700/50 text-green-300 hover:text-white transition-all shadow-[0_0_15px_rgba(34,197,94,0.25)]"
             >
-              <MessageCircle className="w-4 h-4 text-green-400 shrink-0" />
-              <span>💬 WhatsApp Ankit Sir</span>
+              <MessageCircle className="w-5 h-5 text-green-400 shrink-0" />
             </a>
 
             {/* Call Me Link */}
             <a
               href={getTelUrl()}
-              className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 border border-amber-700/50 text-amber-300 hover:text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)]"
+              title="Call Ankit Sir"
+              className="flex items-center justify-center w-10 h-10 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 border border-amber-700/50 text-amber-300 hover:text-white transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)]"
             >
-              <Phone className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>📞 Call Me</span>
+              <Phone className="w-5 h-5 text-amber-400 shrink-0" />
             </a>
           </motion.div>
         )}
